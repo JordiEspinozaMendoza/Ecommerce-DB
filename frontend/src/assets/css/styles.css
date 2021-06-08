@@ -1,0 +1,47 @@
+#home-header {
+  background-color: #333;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 60vh;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#home-header h1 {
+  color: #fff;
+  font-weight: bold;
+}
+
+#home-header h1, #home-header Button {
+  position: relative;
+}
+
+#home-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  opacity: 0.4;
+  background-image: url(https://res.cloudinary.com/jordiespinoza/image/upload/v1623032176/halgatewood-com-v7WyjiyXNr4-unsplash_fnhtcj.jpg);
+  background-size: 100% 150%;
+}
+
+.product-img {
+  display: block;
+  width: 100%;
+  height: 250px;
+}
+/*# sourceMappingURL=styles.css.map */
