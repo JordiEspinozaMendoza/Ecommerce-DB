@@ -1,34 +1,68 @@
-#home-header{
-    background-color: #333;
+#home-header {
+  background-color: #333;
+  position: relative;
+  display: flex;
+  height: 60vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  h1 {
+    color: #fff;
+    font-weight: bold;
+  }
+  h1,
+  Button {
     position: relative;
-    display: flex;
-    height: 60vh;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    h1{
-        color: #fff;
-        font-weight: bold;
-    }
-    h1, Button{
-        position: relative;
-    }
+  }
 }
-#home-header::before{
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-position: center;
-        opacity: 0.4;
-        background-image: url(https://res.cloudinary.com/jordiespinoza/image/upload/v1623032176/halgatewood-com-v7WyjiyXNr4-unsplash_fnhtcj.jpg);
-        background-size: 100% 150%;
+#home-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  opacity: 0.4;
+  background-image: url(https://res.cloudinary.com/jordiespinoza/image/upload/v1623032176/halgatewood-com-v7WyjiyXNr4-unsplash_fnhtcj.jpg);
+  background-size: 100% 150%;
 }
 
-.product-img{
-    display: block;
-    width: 100%;
-    height: 250px;
+.product-img {
+  display: block;
+  width: 100%;
+  height: 250px;
+}
+// Forms
+.form-container {
+  padding: 5rem 15rem !important;
+  h1 {
+    margin: 20px 0px;
+  }
+  label {
+    margin-top: 15px;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px) {
+}
+
+// Large devices (desktops, 992px and up)
+@media (max-width: 992px) {
+  .form-container {
+    padding: 5rem 1rem !important;
+  }
+}
+
+// X-Large devices (large desktops, 1200px and up)
+@media (max-width: 1200px) {
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (max-width: 1400px) {
 }

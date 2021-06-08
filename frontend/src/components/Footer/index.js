@@ -18,7 +18,7 @@ export default function Footer() {
               </Link>
             </p>
             <p className="text-light">
-              <Link to="/" className="text-light">
+              <Link to="/admin/product/edit" className="text-light">
                 Productos
               </Link>
             </p>

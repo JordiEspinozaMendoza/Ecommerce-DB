@@ -22,7 +22,8 @@
   font-weight: bold;
 }
 
-#home-header h1, #home-header Button {
+#home-header h1,
+#home-header Button {
   position: relative;
 }
 
@@ -43,5 +44,23 @@
   display: block;
   width: 100%;
   height: 250px;
+}
+
+.form-container {
+  padding: 5rem 15rem !important;
+}
+
+.form-container h1 {
+  margin: 20px 0px;
+}
+
+.form-container label {
+  margin-top: 15px;
+}
+
+@media (max-width: 992px) {
+  .form-container {
+    padding: 5rem 1rem !important;
+  }
 }
 /*# sourceMappingURL=styles.css.map */
