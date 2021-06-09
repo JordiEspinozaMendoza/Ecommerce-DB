@@ -6,7 +6,6 @@ export const callApi = (url, method, body, constants) => async (dispatch) => {
     dispatch({ type: REQUEST });
 
     const { data } = await axios({
-      baseUrl: BASE_URL,
       method,
       url: url,
       data: body,

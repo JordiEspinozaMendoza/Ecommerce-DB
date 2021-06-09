@@ -10,11 +10,15 @@ cursor = connection.cursor()
 @api_view(["GET"])
 def getProducts(request):
     try:
-        cursor.execute("SELECT * FROM PRODUCTS")
+        # SELECT
+        # cursor.execute("SELECT PRODUCTS.*, CATEGORIES.nameCategory FROM PRODUCTS, CATEGORIES")
+        cursor.execute(
+            "SELECT PRODUCTS.idProduct,PRODUCTS.idCategory,PRODUCTS.nameProduct,PRODUCTS.desProduct, PRODUCTS.priceProducto, PRODUCTS.Existing , CATEGORIES.nameCategory FROM PRODUCTS, CATEGORIES"
+        )
         r = cursor.fetchall()
         return Response(r)
     except Exception as e:
-        print(str(e))
+        return Response(str(e))
 
 
 @api_view(["POST"])
@@ -24,7 +28,7 @@ def register(request):
         # VALUES (value1, value2, value3, ...);
         data = request.data
         cursor.execute(
-            f"INSERT INTO PRODUCTS (nameProduct, desProduct, priceProduct,Existing) VALUES('{data['product']}', '{data['description']}', '{data['price']}','{data['existing']}')"
+            f"INSERT INTO PRODUCTS (nameProduct, desProduct, priceProducto,Existing) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['existing']}')"
         )
         return Response("200")
     except Exception as e:
@@ -43,6 +47,7 @@ def update(request, pk):
     except Exception as e:
         print(str(e))
         return Response(str(e))
+
 
 @api_view(["DELETE"])
 def delete(request, pk):

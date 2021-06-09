@@ -7,14 +7,13 @@ from django.db import connection
 cursor = connection.cursor()
 
 @api_view(["GET"])
-def getUsers(request):
+def getCategories(request):
     try:
         cursor.execute("SELECT * FROM CATEGORIES")
         r = cursor.fetchall()
         return Response(r)
     except Exception as e:
         print(str(e))
-
 
 @api_view(["POST"])
 def register(request):

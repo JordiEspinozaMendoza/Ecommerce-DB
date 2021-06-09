@@ -3,26 +3,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.db import connection
+from base.serializers import userSerializer
 
 cursor = connection.cursor()
-
+    
 
 @api_view(["GET"])
 def getUsers(request):
     try:
         cursor.execute("SELECT * FROM USERS")
         r = cursor.fetchall()
-        users = []
-        for user in r:
-            users.append(
-                {
-                    "id": user[0],
-                    "name": user[1],
-                    "lastName": user[2],
-                    "email": user[3],
-                    "password": user[4],
-                }
-            )
+        users = userSerializer(r)
         return Response(users)
     except Exception as e:
         print(str(e))
@@ -36,12 +27,26 @@ def register(request):
         cursor.execute(
             f"INSERT INTO USERS VALUES(DEFAULT, '{data['name']}', '{data['lastname']}', '{data['email']}', '{data['password']}',0)"
         )
-        return Response("200")
+        r = cursor.fetchone()
+        user = userSerializer(r)
+        return Response(user)
     except Exception as e:
         print(str(e))
         return Response(str(e))
 
-
+@api_view(["POST"])
+def login(request):
+    try:
+        data = request.data
+        cursor.execute(
+            f"SELECT * FROM USERS WHERE mailUser = '{data['email']}' AND passUser = '{data['password']}'"
+        )
+        r = cursor.fetchone()
+        user = userSerializer(r)
+        return Response(user)        
+    except Exception as e:
+        print(str(e))
+        return Response(str(e))
 @api_view(["PUT"])
 def update(request, pk):
     try:
