@@ -3,6 +3,8 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import HomeScreen from "./views/HomeScreen";
 import RegisterScreen from "./views/RegisterScreen";
 import ProductEditScreen from "./views/ProductEditScreen";
+import ProductScreen from "./views/ProductScreen";
+import ProductsScreen from "./views/ProductsScreen";
 import LoginScreen from "./views/LoginScreen";
 
 import NavigationBar from "./components/NavBar";
@@ -16,6 +18,8 @@ function App() {
       <Route path="/register/" component={RegisterScreen} exact/>
       <Route path="/login/" component={LoginScreen} exact/>
       <Route path="/admin/product/edit/" component={ProductEditScreen} exact/>
+      <Route path="/product/:idProducto/" component={ProductScreen} exact/>
+      <Route path="/products/" component={ProductsScreen} exact/>
       <Footer/>
     </Router>
   );
