@@ -26,6 +26,7 @@ import {
   USER_UPDATE_SUCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_LOGIN_RESET
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -37,6 +38,8 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, success: true, userInfo: action.payload };
     case USER_LOGIN_FAIL:
       return { loading: false, success: false, error: action.payload };
+    case USER_LOGIN_RESET:
+      return {loading: false, success: false, error: null};
     case USER_LOGOUT:
       localStorage.removeItem("userInfo");
       return {};

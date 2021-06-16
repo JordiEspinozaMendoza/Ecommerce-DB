@@ -8,10 +8,10 @@ export default function ProfileScreen({ history }) {
   const { userInfo } = userLogin;
   const dispatch = useDispatch();
   const initialState = {
-    name: userInfo.name,
-    lastName: userInfo.lastName,
-    email: userInfo.email,
-    password: userInfo.password,
+    name: userInfo?.name,
+    lastName: userInfo?.lastName,
+    email: userInfo?.email,
+    password: userInfo?.password,
   };
 
   const [user, setUser] = useState(initialState);
@@ -24,7 +24,7 @@ export default function ProfileScreen({ history }) {
     });
   };
   useEffect(() => {
-    if (!userInfo) history.push("/");
+    userInfo == null && history.push("/");
   }, [history, dispatch]);
   return (
     <>
@@ -73,7 +73,7 @@ export default function ProfileScreen({ history }) {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="lastaName">
+            <Form.Group controlId="lastName">
               <Form.Label>Confirma contraseña</Form.Label>
               <Form.Control
                 name="password2"
@@ -91,7 +91,6 @@ export default function ProfileScreen({ history }) {
         </Col>
         <Col xl={8} className="p-5">
           <h2>Mis pedidos</h2>
-          
         </Col>
       </Row>
     </>

@@ -10,6 +10,7 @@ import { callApi } from "../../api";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
+  USER_LOGIN_RESET,
   USER_LOGIN_SUCESS,
 } from "../../constants/userConstants";
 
@@ -52,6 +53,9 @@ export default function LoginScreen({ history }) {
       history.push("/");
     }
   }, [history, userInfo]);
+  useEffect(() => {
+    dispatch({ type: USER_LOGIN_RESET });
+  }, [history]);
   return (
     <Container className="form-container">
       <h1 className="text-center">Login</h1>

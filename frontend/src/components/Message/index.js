@@ -4,7 +4,7 @@ export default function Message({variant, children}){
     const [open, setOpen] = React.useState(true);
     if (open){
         return (
-            <Alert dismissable variant={variant} className="mt-2">
+            <Alert  variant={variant} onClose={()=>setOpen(!open)}>
                 {children}
             </Alert>
         )

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // Components
 import Loader from "../../components/Loader";
+import Alert from "../../components/Message";
 
 import { callApi } from "../../api";
 import {
@@ -64,11 +65,11 @@ export default function RegisterScreen({ history }) {
     }
   }, [success]);
   useEffect(() => {
-    // if (succesLogin) history.push("/");
+    if (succesLogin) history.push("/");
   }, [succesLogin]);
   useEffect(() => {
     if (userInfo) {
-      // history.push("/");
+      history.push("/");
     }
   }, [history, userInfo]);
   return (
@@ -136,6 +137,7 @@ export default function RegisterScreen({ history }) {
         <span className="text-dark d-block text-center mt-4">
           Si ya cuentas con una cuenta, haz login <Link to="/login">aqui</Link>
         </span>
+        {error && <Alert variant="danger">{error}</Alert>}
         {loading ? (
           <Loader />
         ) : (

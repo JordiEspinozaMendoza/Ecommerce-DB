@@ -35,7 +35,8 @@ export default function ProductEditScreen({ match, history }) {
     success,
     product: productRegistered,
   } = productRegister;
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const handleChange = (event) => {
     setProduct({
       ...product,
@@ -52,6 +53,9 @@ export default function ProductEditScreen({ match, history }) {
       })
     );
   };
+  useEffect(() => {
+    if (!userInfo?.isAdmin) history.push("/");
+  }, [userInfo]);
   return (
     <Container className="form-container">
       <Link to="/">
@@ -112,7 +116,6 @@ export default function ProductEditScreen({ match, history }) {
             type="number"
             placeholder="Ingresa la cantidad en stock"
             onChange={handleChange}
-            
           />
         </Form.Group>
         <Form.Group controlId="image">
