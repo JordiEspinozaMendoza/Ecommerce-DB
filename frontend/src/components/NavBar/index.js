@@ -37,7 +37,7 @@ export default function NavigationBar() {
             <LinkContainer to="/">
               <Nav.Link>Inicio</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/">
+            <LinkContainer to="/products/">
               <Nav.Link>Tienda</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Categorias" id="collasible-nav-dropdown">
