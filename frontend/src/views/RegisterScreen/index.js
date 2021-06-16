@@ -4,11 +4,17 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+// Components
+import Loader from "../../components/Loader";
+
 import { callApi } from "../../api";
 import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCESS,
+  USER_LOGIN_FAIL,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCESS,
 } from "../../constants/userConstants";
 
 const initialState = {
@@ -17,20 +23,54 @@ const initialState = {
   email: "",
   password: "",
 };
-export default function RegisterScreen() {
+export default function RegisterScreen({ history }) {
   const [user, setUser] = useState(initialState);
   const { name, lastName, email, password } = user;
   const [password2, setPassword2] = useState("");
 
-  const userRegister = useSelector(state => state.userRegister)
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, success, userInfo } = userRegister;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { success: succesLogin } = userLogin;
+
+  const dispatch = useDispatch();
   const handleChange = (event) => {
     setUser({
+      ...user,
       [event.target.name]: event.target.value,
     });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(user);
+    dispatch(
+      callApi("/api/users/register/", "POST", user, {
+        SUCESS: USER_REGISTER_SUCESS,
+        REQUEST: USER_REGISTER_REQUEST,
+        FAIL: USER_REGISTER_FAIL,
+      })
+    );
   };
+  useEffect(() => {
+    if (success) {
+      dispatch(
+        callApi("/api/users/login/", "POST", user, {
+          SUCESS: USER_LOGIN_SUCESS,
+          REQUEST: USER_LOGIN_REQUEST,
+          FAIL: USER_LOGIN_FAIL,
+        })
+      );
+    }
+  }, [success]);
+  useEffect(() => {
+    // if (succesLogin) history.push("/");
+  }, [succesLogin]);
+  useEffect(() => {
+    if (userInfo) {
+      // history.push("/");
+    }
+  }, [history, userInfo]);
   return (
     <Container className="form-container">
       <h1 className="text-center">Registro</h1>
@@ -59,7 +99,7 @@ export default function RegisterScreen() {
             value={lastName}
           />
         </Form.Group>
-        <Form.Group controlId="lastaName">
+        <Form.Group controlId="email">
           <Form.Label>Correo</Form.Label>
           <Form.Control
             onChange={handleChange}
@@ -96,9 +136,13 @@ export default function RegisterScreen() {
         <span className="text-dark d-block text-center mt-4">
           Si ya cuentas con una cuenta, haz login <Link to="/login">aqui</Link>
         </span>
-        <Button type="submit" variant="success" className="mt-4">
-          Registrarme
-        </Button>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Button type="submit" variant="success" className="mt-4">
+            Registrarme
+          </Button>
+        )}
       </Form>
     </Container>
   );

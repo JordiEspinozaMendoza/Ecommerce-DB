@@ -1,4 +1,7 @@
 import React from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   Navbar,
   Nav,
@@ -10,7 +13,11 @@ import {
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
+import { USER_LOGOUT } from "../../constants/userConstants";
 export default function NavigationBar() {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   return (
     <Navbar
       sticky="top"
@@ -47,11 +54,26 @@ export default function NavigationBar() {
               ></FormControl>
               <Button variant="warning">Buscar</Button>
             </Form>
-            <LinkContainer to="/">
-              <Nav.Link>
-                <i className="fas fa-user"></i> Login
-              </Nav.Link>
-            </LinkContainer>
+            {userInfo ? (
+              <>
+                <NavDropdown title="Cuenta">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Perfil</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item
+                    onClick={() => dispatch({ type: USER_LOGOUT })}
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <LinkContainer to="/login">
+                <Nav.Link>
+                  <i className="fas fa-user"></i> Login
+                </Nav.Link>
+              </LinkContainer>
+            )}
             <LinkContainer to="/">
               <Nav.Link>
                 <i className="fas fa-shopping-cart"></i>

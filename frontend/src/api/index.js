@@ -15,9 +15,13 @@ export const callApi = (url, method, body, constants) => async (dispatch) => {
     });
     dispatch({ type: SUCESS, payload: data });
   } catch (error) {
+    let response = JSON.stringify(error.response.data["detail"]);
+
+    const unquoted = response.replace(/['"]+/g, '')
+
     dispatch({
       type: FAIL,
-      payload: error.message,
+      payload: unquoted,
     });
   }
 };

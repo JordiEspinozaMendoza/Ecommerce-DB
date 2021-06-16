@@ -10,8 +10,6 @@ cursor = connection.cursor()
 @api_view(["GET"])
 def getProducts(request):
     try:
-        # SELECT
-        # cursor.execute("SELECT PRODUCTS.*, CATEGORIES.nameCategory FROM PRODUCTS, CATEGORIES")
         cursor.execute(
             "SELECT PRODUCTS.idProduct,PRODUCTS.idCategory,PRODUCTS.nameProduct,PRODUCTS.desProduct, PRODUCTS.priceProducto, PRODUCTS.Existing , CATEGORIES.nameCategory FROM PRODUCTS, CATEGORIES"
         )
@@ -27,8 +25,10 @@ def register(request):
         # INSERT INTO table_name (column1, column2, column3, ...)
         # VALUES (value1, value2, value3, ...);
         data = request.data
+        if(isinstance(data['price'],str)):
+            return Response('El precio debe de ser un numero', status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
-            f"INSERT INTO PRODUCTS (nameProduct, desProduct, priceProducto,Existing) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['existing']}')"
+            f"INSERT INTO PRODUCTS (nameProduct, desProduct, priceProducto,Existing) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['countInStock']}')"
         )
         return Response("200")
     except Exception as e:
@@ -40,6 +40,8 @@ def register(request):
 def update(request, pk):
     try:
         data = request.data
+        if(isinstance(data['price'],str)):
+            return Response('El precio debe de ser un numero', status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
             f"UPDATE PRODUCTS SET nameProduct = '{data['product']}', desProducto = '{data['description']}', priceProduct = '{data['price']}', Existing = '{data['existing']}' WHERE idProduct={pk}"
         )

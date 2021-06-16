@@ -1,17 +1,39 @@
-def userSerializer(queries):
-    users = []
-    for user in queries:
-        users.append(
-            {
-                "id": user[0],
-                "name": user[1],
-                "lastName": user[2],
-                "email": user[3],
-                "password": user[4],
-                "isAdmin":user[5]
+import os, sys
+
+
+def userSerializer(queries, many):
+    try:
+        if many == False:
+            users = {
+                "id": queries[0],
+                "name": queries[1],
+                "lastName": queries[2],
+                "email": queries[3],
+                "password": queries[4],
+                "isAdmin": queries[5],
             }
-        )
-    return users        
+
+        else:
+            users = []
+            for user in queries:
+                users.append(
+                    {
+                        "id": user[0],
+                        "name": user[1],
+                        "lastName": user[2],
+                        "email": user[3],
+                        "password": user[4],
+                        "isAdmin": user[5],
+                    }
+                )
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+    return users
+
+
 def productSerializer(queries):
     products = []
     for product in queries:
@@ -25,7 +47,9 @@ def productSerializer(queries):
                 "existing": product[5],
             }
         )
-    return products        
+    return products
+
+
 def categorieSerializer(queries):
     categories = []
     for categorie in queries:
@@ -36,7 +60,9 @@ def categorieSerializer(queries):
                 "description": categorie[2],
             }
         )
-    return categories        
+    return categories
+
+
 def orderSerializer(queries):
     orders = []
     for order in queries:
@@ -52,7 +78,9 @@ def orderSerializer(queries):
                 "paymentStatus": order[7],
             }
         )
-    return orders        
+    return orders
+
+
 def orderArticleSerializer(queries):
     orderArticles = []
     for orderArticle in queries:
@@ -66,4 +94,4 @@ def orderArticleSerializer(queries):
                 "total": orderArticle[5],
             }
         )
-    return orderArticles        
+    return orderArticles

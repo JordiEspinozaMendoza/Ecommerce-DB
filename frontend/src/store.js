@@ -10,8 +10,10 @@ import {
   userUpdateProfileReducer,
   userUpdateReducer,
 } from "./reducers/userReducers";
+import { productRegisterReducer } from "./reducers/productReducers";
 const reducer = combineReducers({
   //Reducers
+  //users
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userDetails: userDetailsReducer,
@@ -19,9 +21,17 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userUpdateProfile: userUpdateProfileReducer,
   userUpdate: userUpdateReducer,
+  //Products
+  productRegister: productRegisterReducer,
 });
-
-const initialState = {};
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+const initialState = {
+  userLogin: {
+    userInfo: userInfoFromStorage,
+  },
+};
 
 const middleware = [thunk];
 const store = createStore(
