@@ -43,7 +43,8 @@ def productSerializer(queries, many):
                 "name": queries[2],
                 "description": queries[3],
                 "price": queries[4],
-                "existing": queries[5],
+                "countInStock": queries[5],
+                "img": queries[6],
             }
         else:
             products = []
@@ -55,7 +56,8 @@ def productSerializer(queries, many):
                         "name": product[2],
                         "description": product[3],
                         "price": product[4],
-                        "existing": product[5],
+                        "countInStock": product[5],
+                        "img": product[6],
                     }
                 )
     except Exception as e:

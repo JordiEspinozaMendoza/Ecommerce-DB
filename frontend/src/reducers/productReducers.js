@@ -27,7 +27,7 @@ export const productRegisterReducer = (
   }
 };
 export const productListReducer = (
-  state = { loading: false, error: null, product: null },
+  state = { loading: false, error: null, products: null },
   action
 ) => {
   switch (action.type) {
@@ -38,7 +38,7 @@ export const productListReducer = (
     case PRODUCT_LIST_FAIL:
       return { loading: false, success: false, error: action.payload };
     case PRODUCT_LIST_RESET:
-      return { loading: false, success: false, error: null };
+      return state;
     default:
       return state;
   }

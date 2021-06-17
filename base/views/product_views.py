@@ -14,10 +14,10 @@ cursor = connection.cursor()
 def getProducts(request):
     try:
         cursor.execute(
-            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, \
-            PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock FROM PRODUCTOS"
+            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen FROM PRODUCTOS"
         )
         r = cursor.fetchall()
+        print(r)
         products = productSerializer(r, many=True)
         return Response(products)
     except Exception as e:
@@ -35,9 +35,7 @@ def register(request):
             content = {"detail": "El precio debe ser un numero"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
-            f"INSERT INTO PRODUCTOS (nombreProducto, descripcionProducto, precioProducto,cantidadStock, imagen) \
-            VALUES('{data['name']}', '{data['description']}', '{data['price']}',\
-            '{data['countInStock']}', '{reponseCloudinary['secure_url']}')"
+            f"INSERT INTO PRODUCTOS (nombreProducto, descripcionProducto, precioProducto,cantidadStock, imagen) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['countInStock']}', '{reponseCloudinary['secure_url']}')"
         )
         return Response("200")
     except Exception as e:
@@ -57,8 +55,7 @@ def update(request, pk):
                 "El precio debe de ser un numero", status=status.HTTP_400_BAD_REQUEST
             )
         cursor.execute(
-            f"UPDATE PRODUCTOS SET nombreProducto = '{data['product']}', descripcionProducto = '{data['description']}', \
-            precioProducto = '{data['price']}', cantidadStock = '{data['existing']}' WHERE idProducto={pk}"
+            f"UPDATE PRODUCTOS SET nombreProducto = '{data['product']}', descripcionProducto = '{data['description']}', precioProducto = '{data['price']}', cantidadStock = '{data['existing']}' WHERE idProducto={pk}"
         )
         return Response("200")
     except Exception as e:

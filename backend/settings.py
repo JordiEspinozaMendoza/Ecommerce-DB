@@ -114,9 +114,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "STORE",
-        "USER": "root",
+        "USER": "selvin@proyecstore",
         "PASSWORD": "",
-        "HOST": "localhost",
+        "HOST": "proyecstore.mysql.database.azure.com",
         "PORT": "",
     }
 }

@@ -35,7 +35,7 @@ def register(request):
             return Response(content,status=status.HTTP_400_BAD_REQUEST)
         
         if len(data['password'])<5:
-            content = {'detail': "La contraseña es muy corta intente con otra"}
+            content = {'detail': "La contraseña es muy corta, intente con otra"}
             return Response(content,status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
             f"INSERT INTO USUARIOS VALUES(DEFAULT, '{data['name']}', '{data['lastName']}', '{data['email']}', '{data['password']}',0)"

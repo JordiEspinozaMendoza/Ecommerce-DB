@@ -9,11 +9,12 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 //Components
 import ProductPanel from "../../components/ProductPanel";
+import Loader from "../../components/Loader";
 //api
 import { callApi } from "../../api";
 import {
@@ -24,6 +25,7 @@ import {
 export default function ProductListScreen({ history }) {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
+  const { loading, products, error } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
@@ -76,12 +78,17 @@ export default function ProductListScreen({ history }) {
         </Row>
         <>
           <Row className="w-100 m-0">
-            <Col xs={12} className="d-flex justify-content-center m-0">
-              <ProductPanel></ProductPanel>
-            </Col>
-            <Col xs={12} className="d-flex justify-content-center m-0">
-              <ProductPanel></ProductPanel>
-            </Col>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                {products?.map((product) => (
+                  <Col xs={12} className="d-flex justify-content-center m-0">
+                    <ProductPanel product={product}></ProductPanel>
+                  </Col>
+                ))}
+              </>
+            )}
           </Row>
         </>
       </Row>
