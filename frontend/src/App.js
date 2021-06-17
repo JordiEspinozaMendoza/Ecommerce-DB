@@ -2,11 +2,13 @@ import { HashRouter as Router, Route } from "react-router-dom";
 
 import HomeScreen from "./views/HomeScreen";
 import RegisterScreen from "./views/RegisterScreen";
-import ProductEditScreen from "./views/ProductEditScreen";
+import ProductRegisterScreen from "./views/ProductRegisterScreen";
 import ProductScreen from "./views/ProductScreen";
-import ProductsScreen from "./views/ProductsScreen";
+import ProductListScreen from "./views/ProductListScreen";
 import LoginScreen from "./views/LoginScreen";
 import ProfileScreen from "./views/ProfileScreen";
+import EditCategorie from "./views/EditCategorie";
+import RegisterCategorie from "./views/RegisterCategorie";
 
 import NavigationBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -21,9 +23,12 @@ function App() {
       <Route path="/register/" component={RegisterScreen} exact/>
       <Route path="/login/" component={LoginScreen} exact/>
       <Route path="/profile/" component={ProfileScreen} exact/>
-      <Route path="/admin/product/edit/" component={ProductEditScreen} exact/>
       <Route path="/product/:idProducto/" component={ProductScreen} exact/>
-      <Route path="/products/" component={ProductsScreen} exact/>
+      <Route path="/admin/categories/edit/" component={EditCategorie} exact/>
+      <Route path="/admin/categories/register/" component={RegisterCategorie} exact/>
+      <Route path="/admin/products/register/" component={ProductRegisterScreen} exact/>
+      <Route path="/admin/products/" component={ProductListScreen} exact/>
+      <Route path="/products/" component={ProductScreen} exact/>
       <Footer/>
     </Router>
   );

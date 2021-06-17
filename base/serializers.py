@@ -10,7 +10,7 @@ def userSerializer(queries, many):
                 "lastName": queries[2],
                 "email": queries[3],
                 "password": queries[4],
-                "isAdmin": queries[5],
+                "isAdmin": True if queries[5] == 1 else False,
             }
 
         else:
@@ -23,7 +23,7 @@ def userSerializer(queries, many):
                         "lastName": user[2],
                         "email": user[3],
                         "password": user[4],
-                        "isAdmin": user[5],
+                        "isAdmin": True if user[5] == 1 else False,
                     }
                 )
     except Exception as e:
@@ -34,19 +34,35 @@ def userSerializer(queries, many):
     return users
 
 
-def productSerializer(queries):
-    products = []
-    for product in queries:
-        products.append(
-            {
-                "id": product[0],
-                "categorie": product[1],
-                "name": product[2],
-                "description": product[3],
-                "price": product[4],
-                "existing": product[5],
+def productSerializer(queries, many):
+    try:
+        if many == False:
+            products = {
+                "id": queries[0],
+                "categorie": queries[1],
+                "name": queries[2],
+                "description": queries[3],
+                "price": queries[4],
+                "existing": queries[5],
             }
-        )
+        else:
+            products = []
+            for product in queries:
+                products.append(
+                    {
+                        "id": product[0],
+                        "categorie": product[1],
+                        "name": product[2],
+                        "description": product[3],
+                        "price": product[4],
+                        "existing": product[5],
+                    }
+                )
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
     return products
 
 

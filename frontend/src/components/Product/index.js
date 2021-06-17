@@ -9,6 +9,7 @@ export default function Product() {
       <Link to={`/product/${idProducto}`}>
         <img
           className="rounded img-responsive w-100 mx-auto mb-3"
+          style={{height: "250px"}}
           alt="Producto que se vende"
           src={getRandomImage()}
         ></img>

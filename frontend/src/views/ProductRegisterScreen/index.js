@@ -13,6 +13,7 @@ import {
   PRODUCT_REGISTER_SUCESS,
   PRODUCT_REGISTER_FAIL,
   PRODUCT_REGISTER_REQUEST,
+  PRODUCT_REGISTER_RESET,
 } from "../../constants/productConstants";
 
 const initialState = {
@@ -21,13 +22,14 @@ const initialState = {
   categorie: "",
   price: 0.0,
   countInStock: 0,
+  image: undefined,
 };
 
-export default function ProductEditScreen({ match, history }) {
+export default function ProductRegisterScreen({ match, history }) {
   const dispatch = useDispatch();
 
   const [product, setProduct] = useState(initialState);
-
+  const [image, setImage] = useState();
   const productRegister = useSelector((state) => state.productRegister);
   const {
     loading,
@@ -43,14 +45,36 @@ export default function ProductEditScreen({ match, history }) {
       [event.target.name]: event.target.value,
     });
   };
+  useEffect(() => {
+    if (success) {
+      dispatch({
+        type: PRODUCT_REGISTER_RESET,
+      });
+      history.push("/")
+    }
+  }, [success]);
   const handleSubmit = (event) => {
     event.preventDefault();
+    const productData = new FormData();
+    productData.append("name", product.name);
+    productData.append("lastName", product.lastName);
+    productData.append("price", product.price);
+    productData.append("countInStock", product.countInStock);
+    productData.append("description", product.description);
+    productData.append("image", image);
+    console.log(productData);
     dispatch(
-      callApi("/api/products/register/", "POST", product, {
-        SUCESS: PRODUCT_REGISTER_SUCESS,
-        FAIL: PRODUCT_REGISTER_FAIL,
-        REQUEST: PRODUCT_REGISTER_REQUEST,
-      })
+      callApi(
+        "/api/products/register/",
+        "POST",
+        productData,
+        {
+          SUCESS: PRODUCT_REGISTER_SUCESS,
+          FAIL: PRODUCT_REGISTER_FAIL,
+          REQUEST: PRODUCT_REGISTER_REQUEST,
+        },
+        true
+      )
     );
   };
   useEffect(() => {
@@ -58,10 +82,10 @@ export default function ProductEditScreen({ match, history }) {
   }, [userInfo]);
   return (
     <Container className="form-container">
-      <Link to="/">
+      <Link to="/admin/products/">
         <Button variant="warning">Regresar</Button>
       </Link>
-      <h1>Editar producto</h1>
+      <h1>Registar producto</h1>
       <span className="text-dark">
         Llena los campos correspondientes para registrar tu producto
       </span>
@@ -123,8 +147,17 @@ export default function ProductEditScreen({ match, history }) {
           <Form.Control
             type="text"
             placeholder="Ingresa la imagen"
+            value={image}
           ></Form.Control>
-          <Form.File id="image-file" label="Elegir imagen" custom />
+          <Form.File
+            id="image-file"
+            label="Elegir imagen"
+            custom
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+              console.log(e.target.files[0]);
+            }}
+          />
         </Form.Group>
         {error && <Message variant="danger">{error}</Message>}
         {loading ? (

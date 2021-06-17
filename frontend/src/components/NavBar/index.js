@@ -66,6 +66,16 @@ export default function NavigationBar() {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
+                {userInfo.isAdmin && (
+                  <NavDropdown title="Admin">
+                    <LinkContainer to="/admin/products/">
+                      <NavDropdown.Item>Productos</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/categories/">
+                      <NavDropdown.Item>Categorias</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
               </>
             ) : (
               <LinkContainer to="/login">
