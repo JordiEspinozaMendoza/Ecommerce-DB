@@ -55,7 +55,7 @@ export default function LoginScreen({ history }) {
   }, [history, userInfo]);
   useEffect(() => {
     dispatch({ type: USER_LOGIN_RESET });
-  }, [history]);
+  }, [history]);  
   return (
     <Container className="form-container">
       <h1 className="text-center">Login</h1>

@@ -26,6 +26,7 @@ export default function ProfileScreen({ history }) {
   useEffect(() => {
     userInfo == null && history.push("/");
   }, [history, dispatch]);
+  
   return (
     <>
       <Row style={{ minHeight: "100vh", overflowX: "hidden" }}>

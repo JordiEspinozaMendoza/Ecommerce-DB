@@ -22,6 +22,7 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCESS,
 } from "../../constants/productConstants";
+
 export default function ProductListScreen({ history }) {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
@@ -46,6 +47,7 @@ export default function ProductListScreen({ history }) {
       history.push("/");
     }
   }, [userInfo, history]);
+  console.log("a");
   return (
     <Container className="mt-5">
       <Row>

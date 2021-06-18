@@ -22,16 +22,13 @@ export default function ProductsList() {
   return (
     <Container>
       <Row style={{ overflowX: "hidden" }}>
-        {
-          //Map() que usa el índice de cada producto como key para una columna donde se mostrará cada producto
-        state.data.map((prod) => {
+        {state.data.map((product) => {
           return(
-            <Col key={state.data.indexOf(prod)} sm={12} md={6} lg={4} xl={3}>
-              <Product />
+            <Col key={state.data.indexOf(product)} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product}/>
             </Col>
           );
         })}
-
       </Row>
     </Container>
   );

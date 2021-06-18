@@ -19,16 +19,24 @@ function App() {
     <Router>
       <NavigationBar />
       <ScrollToTop/>
+      {/* HOME PATH */}
       <Route path="/" component={HomeScreen} exact/>
+
+      {/* USER PATHS */}
       <Route path="/register/" component={RegisterScreen} exact/>
       <Route path="/login/" component={LoginScreen} exact/>
       <Route path="/profile/" component={ProfileScreen} exact/>
-      <Route path="/product/:idProducto/" component={ProductScreen} exact/>
+
+      {/* PUBLIC PRODUCT PATHS */}
+      <Route path="/product/:idProduct/" component={ProductScreen} exact/>
+      <Route path="/products/" component={ProductScreen} exact/>
+
+      {/* ADMIN PATHS */}
       <Route path="/admin/categories/edit/" component={EditCategorie} exact/>
       <Route path="/admin/categories/register/" component={RegisterCategorie} exact/>
       <Route path="/admin/products/register/" component={ProductRegisterScreen} exact/>
       <Route path="/admin/products/" component={ProductListScreen} exact/>
-      <Route path="/products/" component={ProductScreen} exact/>
+
       <Footer/>
     </Router>
   );
