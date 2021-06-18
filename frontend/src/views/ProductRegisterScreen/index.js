@@ -15,6 +15,11 @@ import {
   PRODUCT_REGISTER_REQUEST,
   PRODUCT_REGISTER_RESET,
 } from "../../constants/productConstants";
+import {
+  CATEGORIE_LIST_FAIL,
+  CATEGORIE_LIST_REQUEST,
+  CATEGORIE_LIST_SUCESS,
+} from "../../constants/categorieConstants";
 
 const initialState = {
   name: "",
@@ -30,6 +35,7 @@ export default function ProductRegisterScreen({ match, history }) {
 
   const [product, setProduct] = useState(initialState);
   const [image, setImage] = useState();
+  const [categorieId, setCategorieId] =useState(1);
   const productRegister = useSelector((state) => state.productRegister);
   const {
     loading,
@@ -37,6 +43,10 @@ export default function ProductRegisterScreen({ match, history }) {
     success,
     product: productRegistered,
   } = productRegister;
+
+  const categorieList = useSelector((state) => state.categorieList);
+  const { categories } = categorieList;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const handleChange = (event) => {
@@ -50,9 +60,23 @@ export default function ProductRegisterScreen({ match, history }) {
       dispatch({
         type: PRODUCT_REGISTER_RESET,
       });
-      history.push("/")
+      history.push("/");
     }
   }, [success]);
+  useEffect(() => {
+    dispatch(
+      callApi(
+        "/api/categories/getcategories/",
+        "GET",
+        {},
+        {
+          SUCESS: CATEGORIE_LIST_SUCESS,
+          FAIL: CATEGORIE_LIST_FAIL,
+          REQUEST: CATEGORIE_LIST_REQUEST,
+        }
+      )
+    );
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
     const productData = new FormData();
@@ -61,8 +85,8 @@ export default function ProductRegisterScreen({ match, history }) {
     productData.append("price", product.price);
     productData.append("countInStock", product.countInStock);
     productData.append("description", product.description);
+    productData.append("categorie", categorieId);
     productData.append("image", image);
-    console.log(productData);
     dispatch(
       callApi(
         "/api/products/register/",
@@ -117,10 +141,10 @@ export default function ProductRegisterScreen({ match, history }) {
           onChange={handleChange}
         >
           <Form.Label>Categoria</Form.Label>
-          <Form.Control as="select" type="text">
-            <option>Test</option>
-            <option>Test</option>
-            <option>Test</option>
+          <Form.Control as="select" type="text" onChange={(e)=>setCategorieId(e.target.value)}>
+            {categories?.map((categorie) => (
+              <option value={categorie.id}>{categorie.name}</option>
+            ))}
           </Form.Control>
         </Form.Group>
         <Form.Group controlId="price">

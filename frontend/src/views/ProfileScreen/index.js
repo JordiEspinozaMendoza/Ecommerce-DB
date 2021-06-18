@@ -64,7 +64,7 @@ export default function ProfileScreen({ history }) {
               />
             </Form.Group>
             <Form.Group controlId="lastaName">
-              <Form.Label>Contraseña</Form.Label>
+              <Form.Label>Nueva contraseña</Form.Label>
               <Form.Control
                 onChange={handleChange}
                 name="password"
@@ -75,7 +75,7 @@ export default function ProfileScreen({ history }) {
               />
             </Form.Group>
             <Form.Group controlId="lastName">
-              <Form.Label>Confirma contraseña</Form.Label>
+              <Form.Label>Confirma nueva contraseña</Form.Label>
               <Form.Control
                 name="password2"
                 type="password"

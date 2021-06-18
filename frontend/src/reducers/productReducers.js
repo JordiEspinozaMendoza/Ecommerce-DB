@@ -6,7 +6,15 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCESS,
   PRODUCT_LIST_FAIL,
-  PRODUCT_LIST_RESET
+  PRODUCT_LIST_RESET,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_SUCESS,
+  PRODUCT_UPDATE_FAIL,
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_DETAILS_REQUEST,
+  PRODUCT_DETAILS_SUCESS,
+  PRODUCT_DETAILS_FAIL,
+  PRODUCT_DETAILS_RESET,
 } from "../constants/productConstants";
 
 export const productRegisterReducer = (
@@ -22,6 +30,40 @@ export const productRegisterReducer = (
       return { loading: false, success: false, error: action.payload };
     case PRODUCT_REGISTER_RESET:
       return { loading: false, success: false, error: null };
+    default:
+      return state;
+  }
+};
+export const productUpdateReducer = (
+  state = { loading: false, error: null, product: null },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_REQUEST:
+      return { loading: true, success: false };
+    case PRODUCT_UPDATE_SUCESS:
+      return { loading: false, success: true, product: action.payload };
+    case PRODUCT_UPDATE_FAIL:
+      return { loading: false, success: false, error: action.payload };
+    case PRODUCT_UPDATE_RESET:
+      return { loading: false, success: false, error: null };
+    default:
+      return state;
+  }
+};
+export const productDetailsReducer = (
+  state = { },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_DETAILS_REQUEST:
+      return { loading: true, success: false };
+    case PRODUCT_DETAILS_SUCESS:
+      return { loading: false, success: true, product: action.payload };
+    case PRODUCT_DETAILS_FAIL:
+      return { loading: false, success: false, error: action.payload };
+    case PRODUCT_DETAILS_RESET:
+      return { loading: false, success: false, error: null, product: null };
     default:
       return state;
   }
