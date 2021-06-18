@@ -84,7 +84,21 @@ export default function ProductListScreen({ history }) {
               <>
                 {products?.map((product) => (
                   <Col xs={12} className="d-flex justify-content-center m-0">
-                    <ProductPanel product={product}></ProductPanel>
+                    <ProductPanel product={product}>
+                      <LinkContainer
+                        to={`/admin/products/edit/${product.id}/`}
+                      >
+                        <Button variant="primary" className="btn-sm mr-2">
+                          <i className="fas fa-edit"></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant="danger"
+                        className="btn-sm"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </Button>
+                    </ProductPanel>
                   </Col>
                 ))}
               </>

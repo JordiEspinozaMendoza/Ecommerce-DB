@@ -7,26 +7,57 @@ from base.serializers import productSerializer
 import os, sys
 import cloudinary
 
-cursor = connection.cursor()
-
 
 @api_view(["GET"])
 def getProducts(request):
     try:
+        cursor = connection.cursor()
         cursor.execute(
-            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen FROM PRODUCTOS"
+            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria"
         )
         r = cursor.fetchall()
         print(r)
         products = productSerializer(r, many=True)
+        cursor.close()
         return Response(products)
     except Exception as e:
-        return Response(str(e))
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def getProduct(request, pk):
+    try:
+        cursor = connection.cursor()
+        print(pk)
+        cursor.execute(
+            f"SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen, CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria WHERE PRODUCTOS.idProducto = {int(pk)}"
+        )
+        r = cursor.fetchone()
+        print(r)
+        products = productSerializer(r, many=False)
+        cursor.close()
+        return Response(products)
+    except Exception as e:
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
 def register(request):
     try:
+        cursor = connection.cursor()
+
         data = request.data
         image = request.FILES.get("image")
         reponseCloudinary = cloudinary.uploader.upload(image)
@@ -35,10 +66,13 @@ def register(request):
             content = {"detail": "El precio debe ser un numero"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
-            f"INSERT INTO PRODUCTOS (nombreProducto, descripcionProducto, precioProducto,cantidadStock, imagen) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['countInStock']}', '{reponseCloudinary['secure_url']}')"
+            f"INSERT INTO PRODUCTOS (nombreProducto, descripcionProducto, precioProducto,cantidadStock, imagen, idCategoria) VALUES('{data['name']}', '{data['description']}', '{data['price']}','{data['countInStock']}', '{reponseCloudinary['secure_url']}', {data['categorie']})"
         )
+        cursor.close()
+
         return Response("200")
     except Exception as e:
+        cursor.close()
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
@@ -49,6 +83,7 @@ def register(request):
 @api_view(["PUT"])
 def update(request, pk):
     try:
+        cursor = connection.cursor()
         data = request.data
         if isinstance(int(data["price"]), str):
             return Response(
@@ -59,6 +94,7 @@ def update(request, pk):
         )
         return Response("200")
     except Exception as e:
+        cursor.close()
         print(str(e))
         return Response(str(e))
 
@@ -66,9 +102,11 @@ def update(request, pk):
 @api_view(["DELETE"])
 def delete(request, pk):
     try:
+        cursor = connection.cursor()
         cursor.execute(f"DELETE FROM PRODUCTOS WHERE idProducto = {pk}")
         return Response("200")
     except Exception as e:
+        cursor.close()
         print(str(e))
         return Response(str(e))
 

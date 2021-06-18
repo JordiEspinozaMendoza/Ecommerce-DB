@@ -10,6 +10,7 @@ import { callApi } from "../../api";
 import {
   CATEGORIE_REGISTER_FAIL,
   CATEGORIE_REGISTER_REQUEST,
+  CATEGORIE_REGISTER_RESET,
   CATEGORIE_REGISTER_SUCESS,
 } from "../../constants/categorieConstants";
 
@@ -20,8 +21,8 @@ const initialState = {
 export default function RegisterCategorie({ history }) {
   const dispatch = useDispatch();
   const [categorie, setCategorie] = useState(initialState);
-  const categorieRegister = useSelector(state => state.categorieRegister)
-  const {loading, error, success}=categorieRegister;
+  const categorieRegister = useSelector((state) => state.categorieRegister);
+  const { loading, error, success } = categorieRegister;
   const handleChange = (event) => {
     setCategorie({
       ...categorie,
@@ -39,6 +40,13 @@ export default function RegisterCategorie({ history }) {
       })
     );
   };
+  useEffect(() => {
+    if (success) history.push("/");
+  }, [success]);
+  useEffect(() => {
+    dispatch({ type: CATEGORIE_REGISTER_RESET });
+  }, [history]);
+
   return (
     <Container className="mt-5 form-container" style={{ minHeight: "80vh" }}>
       <h2>Registrar categoria</h2>
@@ -64,11 +72,12 @@ export default function RegisterCategorie({ history }) {
             required
           ></Form.Control>
         </Form.Group>
+        {error && <Message variant="danger">{error}</Message>}
         {loading ? (
           <Loader />
         ) : (
           <Button type="submit" className="mt-2" variant="primary">
-            Actualizar
+            Registrar
           </Button>
         )}
       </Form>
