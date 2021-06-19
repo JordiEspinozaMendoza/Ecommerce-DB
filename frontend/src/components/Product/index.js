@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 
 export default function Product({product}) {
   return (
-    <Card className="my-3 p-3">
+    <Card className="my-3 p-3 mw-100 mh-100">
       <Link to={`/product/${product?.id}`}>
+        <div className="w-auto">
         <img
-          className="rounded img-responsive mx-auto w-100"
-          style={{maxheight: "250px", minheight:"250px"}}
+          className="rounded img-responsive"
+          style={{height: "22vh"}}
           alt="Producto que se vende"
           src={product?.img}
         ></img>
+        </div>
       </Link>
       <Card.Body>
         <Card.Title>{product?.name}</Card.Title>

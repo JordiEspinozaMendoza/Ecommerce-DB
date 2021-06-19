@@ -1,7 +1,6 @@
-import React from "react";
-
+//React
+import React, {useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   Navbar,
   Nav,
@@ -12,12 +11,43 @@ import {
   Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-
+import { Link } from "react-router-dom";
+//api
+import { callApi } from "../../api";
+//CONSTANTS
 import { USER_LOGOUT } from "../../constants/userConstants";
-export default function NavigationBar() {
+import{
+  CATEGORIE_LIST_REQUEST,
+  CATEGORIE_LIST_SUCESS,
+  CATEGORIE_LIST_FAIL,
+} from "../../constants/categorieConstants";
+
+
+export default function NavigationBar(history) {
   const dispatch = useDispatch();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const categorieList = useSelector((state) => state.categorieList);
+  const { loadingCat, categories, errorCat } = categorieList;
+
+  //GET
+  useEffect(() => {
+    dispatch(
+        callApi(
+          "/api/categories/getcategories/",
+          "GET",
+          {},
+          {
+            SUCESS: CATEGORIE_LIST_SUCESS,
+            FAIL: CATEGORIE_LIST_FAIL,
+            REQUEST: CATEGORIE_LIST_REQUEST,
+          }
+        )
+      );
+  }, [userInfo, history]);
+
   return (
     <Navbar
       sticky="top"
@@ -41,7 +71,13 @@ export default function NavigationBar() {
               <Nav.Link>Tienda</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Categorias" id="collasible-nav-dropdown">
-              <NavDropdown.Item>Test</NavDropdown.Item>
+              {categories?.map(cat => {
+                return(
+                  <LinkContainer to={`/categories/${cat.name}`}>
+                    <NavDropdown.Item>{cat.name}</NavDropdown.Item>
+                  </LinkContainer>
+                );
+              })}
             </NavDropdown>
           </Nav>
           <Nav>

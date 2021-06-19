@@ -1,20 +1,7 @@
 //React
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {Col, Row, Card, Button, Container} from "react-bootstrap";
-
-/*
-"id": queries[0],
-"categorie": queries[1],
-"name": queries[2],
-"description": queries[3],
-"price": queries[4],
-"countInStock": queries[5],
-"img": queries[6],
-*/
+import {Col, Row, Card, Container} from "react-bootstrap";
 
 export default function ProductDetails({product}) {
-  console.log(product);
   return (
     <>
       <Container className="m-4 p-3 mx-auto">
@@ -28,9 +15,11 @@ export default function ProductDetails({product}) {
         </Col>
         <Col key="2" >
         <div className="mx-auto rounded mb-3">
-          <h6 className="mx-auto mb-1 bg-warning rounded p-1 text-center text-white">{product?.categorie}</h6>
-          <h3 className="text-center my-1">{product?.name}</h3> 
-          <br/>{product?.description} <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque, harum vitae repellendus officiis delectus fugiat laboriosam, amet itaque doloribus odio beatae molestiae recusandae, asperiores maiores perferendis soluta. Inventore, doloremque aliquid?
+          <h6 className="mx-auto mb-1 bg-warning rounded p-1 text-center text-white">{product?.nameCategorie}</h6>
+          <h3 className="text-center py-3">{product?.name}</h3> 
+          <div className="pt-2">
+            {product?.description}
+          </div>
         </div>
         </Col>
         <Col key="3">
@@ -44,7 +33,6 @@ export default function ProductDetails({product}) {
               <Card.Text as="h5">
                 Disponibles: {product?.countInStock}
               </Card.Text>
-              <br/><br/>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi illum natus facilis quo recusandae totam quisquam ipsum sequi est commodi aspernatur nesciunt possimus ut voluptates, quas eum suscipit quae odio?
             </Card.Body>
             <button type="button" className="btn btn-primary">
             Añadir al carro <i className="fas fa-shopping-cart"></i></button>

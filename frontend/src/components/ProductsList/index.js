@@ -1,30 +1,17 @@
 import Product from "../Product";
 import { Row, Col, Container } from "react-bootstrap";
 
-export default function ProductsList() {
-
-  const state = {
-    data:[
-      {
-        idProducto : 0
-      },
-      {
-        idProducto : 1
-      },
-      {
-        idProducto : 2
-      },
-      {
-        idProducto : 3
-      }
-    ]
-  }
+export default function ProductsList({products}) {
+let key = 1 
+try{
+  key = products?.values().next().value["categorie"];
+}catch(e){}
   return (
-    <Container>
-      <Row style={{ overflowX: "hidden" }}>
-        {state.data.map((product) => {
+    <Container className="">
+      <Row key={key} style={{ overflowX: "show" }}>
+        {products?.map((product) => {
           return(
-            <Col key={state.data.indexOf(product)} sm={12} md={6} lg={4} xl={3}>
+            <Col key={products?.indexOf(product)} lg={"auto"} md={"auto"} className="d-flex justify-content-center flex-fill">
               <Product product={product}/>
             </Col>
           );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Row, Col, Image, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form } from "react-bootstrap";
 
 export default function ProfileScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);

@@ -1,19 +1,26 @@
+//React
 import { HashRouter as Router, Route } from "react-router-dom";
 
+//Screens
 import HomeScreen from "./views/HomeScreen";
 import RegisterScreen from "./views/RegisterScreen";
 import ProductRegisterScreen from "./views/ProductRegisterScreen";
 import ProductEditScreen from "./views/ProductEditScreen";
 import ProductScreen from "./views/ProductScreen";
+import ProductsScreen from "./views/ProductsScreen";
 import ProductListScreen from "./views/ProductListScreen";
 import LoginScreen from "./views/LoginScreen";
 import ProfileScreen from "./views/ProfileScreen";
 import EditCategorie from "./views/EditCategorie";
 import RegisterCategorie from "./views/RegisterCategorie";
+import CategorieScreen from "./views/CategorieScreen";
 
+//Components
 import NavigationBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+
+//Styles
 import "./assets/css/styles.css"
 function App() {
   return (
@@ -30,7 +37,10 @@ function App() {
 
       {/* PUBLIC PRODUCT PATHS */}
       <Route path="/product/:idProduct/" component={ProductScreen} exact/>
-      <Route path="/products/" component={ProductScreen} exact/>
+      <Route path="/products/" component={ProductsScreen} exact/>
+
+      {/* PUBLIC CATEGORIE PATHS */}
+      <Route path="/categories/:name/" component={CategorieScreen} exact/>
 
       {/* ADMIN PATHS */}
       <Route path="/admin/categories/edit/" component={EditCategorie} exact/>
