@@ -58,6 +58,16 @@
   margin-top: 15px;
 }
 
+.container-hard {
+  min-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 @media (max-width: 992px) {
   .form-container {
     padding: 5rem 1rem !important;

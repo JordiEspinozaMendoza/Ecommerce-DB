@@ -23,6 +23,23 @@ def getCategories(request):
         print(exc_type, fname, exc_tb.tb_lineno)
         content = {"detail": "Algo ha ocurrido"}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+@api_view(["GET"])
+def getCategorie(request, pk):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(f"SELECT * FROM CATEGORIAS WHERE idCategoria = {int(pk)}")
+        r = cursor.fetchone()
+        categories = categorieSerializer(r, many=False)
+        cursor.close()
+        return Response(categories)
+    except Exception as e:
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -49,14 +66,18 @@ def update(request, pk):
         cursor = connection.cursor()
         data = request.data
         cursor.execute(
-            f"UPDATE CATEGORIAS SET nombreCategoria = '{data['category']}', descripcionCategoria = '{data['description']}' WHERE idCategoria = {pk}"
+            f"UPDATE CATEGORIAS SET nombreCategoria = '{data['name']}', descripcionCategoria = '{data['description']}' WHERE idCategoria = {pk}"
         )
         cursor.close()
         return Response("200")
     except Exception as e:
         cursor.close()
-        print(str(e))
-        return Response(str(e))
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["DELETE"])

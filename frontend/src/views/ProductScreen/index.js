@@ -1,7 +1,7 @@
 //React
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 //Components
 import ProductDetails from "../../components/ProductDetails";
@@ -22,7 +22,7 @@ export default function ProductScreen(history) {
   const { loading, products, error } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  
+
   //GET
   useEffect(() => {
     dispatch(
@@ -38,22 +38,46 @@ export default function ProductScreen(history) {
       )
     );
   }, [userInfo, history]);
-  
+
   const id = parseInt(useParams()["idProduct"], 10);
   const selectedProduct = products?.find((prod) => prod["id"] === id);
   return (
     <>
-      {loading && <Loader />}
-      {(products && selectedProduct) ? <ProductDetails product={selectedProduct}/> 
-      : <></>}
-      
-      {selectedProduct ? 
-      <Container>
-        <ProductsList products={products?.filter(prod => prod["categorie"] === selectedProduct["categorie"] && prod !== selectedProduct)}/>
-      </Container>
-      : !loading ? 
-      <>Producto no encontrado</>
-      :<></>}
+      {loading ? (
+        <Container style={{ minHeight: "100vh", paddingTop: "5rem" }}>
+          <Loader />
+        </Container>
+      ) : products && selectedProduct ? (
+        <Container
+          style={{
+            minHeight: "70vh",
+            paddingTop: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ProductDetails product={selectedProduct} />
+        </Container>
+      ) : (
+        <></>
+      )}
+
+      {/* {selectedProduct ? (
+        <Container style={{ minHeight: "60vh"}}>
+          <ProductsList style={{display: "flex", justifyContent: "center", alignItems: "center", height:"100%"}}
+            products={products?.filter(
+              (prod) =>
+                prod["categorie"] === selectedProduct["categorie"] &&
+                prod !== selectedProduct
+            )}
+          />
+        </Container>
+      ) : !loading ? (
+        <>Producto no encontrado</>
+      ) : (
+        <></>
+      )} */}
     </>
   );
 }

@@ -7,8 +7,6 @@ export default function HomeScreen() {
     <>
       <Header/>
       <AllProducts />
-
-
       <ProductsList />
     </>
   );

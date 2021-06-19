@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
 // Components
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -41,7 +42,7 @@ export default function RegisterCategorie({ history }) {
     );
   };
   useEffect(() => {
-    if (success) history.push("/");
+    if (success) history.push("/admin/categories");
   }, [success]);
   useEffect(() => {
     dispatch({ type: CATEGORIE_REGISTER_RESET });
@@ -49,7 +50,10 @@ export default function RegisterCategorie({ history }) {
 
   return (
     <Container className="mt-5 form-container" style={{ minHeight: "80vh" }}>
-      <h2>Registrar categoria</h2>
+      <Link to="/admin/categories/">
+        <Button variant="warning">Regresar</Button>
+      </Link>
+      <h2 className="mt-4">Registrar categoria</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="name">
           <Form.Label>Nombre de la categoria</Form.Label>

@@ -19,6 +19,8 @@ import {
 import {
   categorieRegisterReducer,
   categorieListReducer,
+  categorieDetailsReducer,
+  categorieUpdateReducer
 } from "./reducers/categorieReducers";
 const reducer = combineReducers({
   //Reducers
@@ -39,6 +41,8 @@ const reducer = combineReducers({
   //Categories
   categorieRegister: categorieRegisterReducer,
   categorieList: categorieListReducer,
+  categorieDetails: categorieDetailsReducer,
+  categorieUpdate: categorieUpdateReducer,
 });
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))

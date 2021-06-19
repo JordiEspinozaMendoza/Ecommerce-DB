@@ -14,6 +14,7 @@ import ProfileScreen from "./views/ProfileScreen";
 import EditCategorie from "./views/EditCategorie";
 import RegisterCategorie from "./views/RegisterCategorie";
 import CategorieScreen from "./views/CategorieScreen";
+import CategoriesScreen from "./views/CategoriesScreen";
 
 //Components
 import NavigationBar from "./components/NavBar";
@@ -43,7 +44,8 @@ function App() {
       <Route path="/categories/:name/" component={CategorieScreen} exact/>
 
       {/* ADMIN PATHS */}
-      <Route path="/admin/categories/edit/" component={EditCategorie} exact/>
+      <Route path="/admin/categories/" component={CategoriesScreen} exact/>
+      <Route path="/admin/categories/edit/:id/" component={EditCategorie} exact/>
       <Route path="/admin/categories/register/" component={RegisterCategorie} exact/>
       <Route path="/admin/products/register/" component={ProductRegisterScreen} exact/>
       <Route path="/admin/products/edit/:id/" component={ProductEditScreen} exact/>

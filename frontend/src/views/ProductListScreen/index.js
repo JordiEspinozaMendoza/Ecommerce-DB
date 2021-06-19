@@ -47,7 +47,7 @@ export default function ProductListScreen({ history }) {
   }, [userInfo, history]);
   console.log("a");
   return (
-    <Container className="mt-5">
+    <Container className="mt-5" style={{minHeight:"80vh"}}>
       <Row>
         <Col>
           <h1>Productos</h1>
