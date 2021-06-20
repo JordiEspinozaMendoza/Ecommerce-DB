@@ -1,8 +1,8 @@
 //React
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 //Components
 import ProductDetails from "../../components/ProductDetails";
 import ProductsList from "../../components/ProductsList";
@@ -16,13 +16,16 @@ import {
   PRODUCT_LIST_SUCESS,
 } from "../../constants/productConstants";
 
-export default function ProductScreen(history) {
+export default function ProductScreen({history}) {
   const dispatch = useDispatch();
+  const [qty, setQty] = useState(1);
   const productList = useSelector((state) => state.productList);
   const { loading, products, error } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const addToCartHandler = (e) => {
+    history.push(`/cart/${selectedProduct.id}?qty=${qty}`);
+  };
   //GET
   useEffect(() => {
     dispatch(
@@ -57,7 +60,39 @@ export default function ProductScreen(history) {
             alignItems: "center",
           }}
         >
-          <ProductDetails product={selectedProduct} />
+          <ProductDetails product={selectedProduct}>
+            <div className="p-3">
+              {selectedProduct?.countInStock > 0 ? (
+                <>
+                  <h6>Cantidad a comprar</h6>
+                  <Form.Control
+                    as="select"
+                    className="mb-3"
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                  >
+                    {[...Array(selectedProduct.countInStock).keys()].map(
+                      (x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      )
+                    )}
+                  </Form.Control>
+                  <button
+                    type="button"
+                    onClick={addToCartHandler}
+                    className="btn btn-primary"
+                    disabled={selectedProduct?.countInStock === 0}
+                  >
+                    Añadir al carro <i className="fas fa-shopping-cart"></i>
+                  </button>
+                </>
+              ) : (
+                <h6>No hay productos en stock</h6>
+              )}
+            </div>
+          </ProductDetails>
         </Container>
       ) : (
         <></>

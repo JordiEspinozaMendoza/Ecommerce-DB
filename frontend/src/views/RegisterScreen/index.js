@@ -44,7 +44,6 @@ export default function RegisterScreen({ history }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user);
     dispatch(
       callApi("/api/users/register/", "POST", user, {
         SUCESS: USER_REGISTER_SUCESS,

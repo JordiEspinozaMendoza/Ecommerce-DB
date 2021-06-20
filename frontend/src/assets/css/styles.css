@@ -68,6 +68,16 @@
           align-items: center;
 }
 
+.cart-counter {
+  background-color: red;
+  color: white;
+  border-radius: 150px;
+  padding: 2px;
+  position: relative;
+  top: -10px;
+  left: 0%;
+}
+
 @media (max-width: 992px) {
   .form-container {
     padding: 5rem 1rem !important;

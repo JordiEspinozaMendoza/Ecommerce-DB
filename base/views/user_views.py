@@ -30,7 +30,7 @@ def register(request):
         cursor = connection.cursor()
 
         data = request.data
-        print(data)
+        # print(data)
         cursor.execute(
             f"SELECT idUsuario, correoUsuario FROM USUARIOS WHERE  correoUsuario='{data['email']}'"
         )

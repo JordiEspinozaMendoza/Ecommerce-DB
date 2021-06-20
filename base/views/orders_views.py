@@ -3,8 +3,37 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.db import connection
+import os, sys
 
-cursor = connection.cursor()
+# cursor = connection.cursor()
+
+
+@api_view(["POST"])
+def createOrder(request):
+    data = request.data
+    cursor = connection.cursor()
+    try:
+        # print(data["items"])
+        cursor.execute(
+            f"INSERT INTO ORDENES (idUsuario, pais, ciudad, calle, zipcode, statusEnvio, statusPago) VALUES({data['idUser']}, '{data['country']}','{data['city']}', '{data['street']}', {data['zipcode']}, 'pedido', 'pagado')"
+        )
+        last_id = cursor.lastrowid
+
+        for product in data["items"]:
+            cursor.execute(
+                f"INSERT INTO ORDEN_ARTICULO (idProducto, idOrden, cantidad, subTotal, TAX, total) VALUES({product['product']}, {last_id},{product['qty']},{int(product['qty'])*int(product['price'])}, 0, {int(product['qty'])*int(product['price'])})"
+            )
+        cursor.close()
+        return Response("200")
+
+    except Exception as e:
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -43,6 +72,7 @@ def update(request, pk):
     except Exception as e:
         print(str(e))
         return Response(str(e))
+
 
 @api_view(["DELETE"])
 def delete(request, pk):

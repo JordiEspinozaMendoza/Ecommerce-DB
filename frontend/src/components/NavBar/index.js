@@ -1,5 +1,5 @@
 //React
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Navbar,
@@ -16,36 +16,36 @@ import { Link } from "react-router-dom";
 import { callApi } from "../../api";
 //CONSTANTS
 import { USER_LOGOUT } from "../../constants/userConstants";
-import{
+import {
   CATEGORIE_LIST_REQUEST,
   CATEGORIE_LIST_SUCESS,
   CATEGORIE_LIST_FAIL,
 } from "../../constants/categorieConstants";
-
 
 export default function NavigationBar(history) {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
   const categorieList = useSelector((state) => state.categorieList);
   const { loadingCat, categories, errorCat } = categorieList;
 
   //GET
   useEffect(() => {
     dispatch(
-        callApi(
-          "/api/categories/getcategories/",
-          "GET",
-          {},
-          {
-            SUCESS: CATEGORIE_LIST_SUCESS,
-            FAIL: CATEGORIE_LIST_FAIL,
-            REQUEST: CATEGORIE_LIST_REQUEST,
-          }
-        )
-      );
+      callApi(
+        "/api/categories/getcategories/",
+        "GET",
+        {},
+        {
+          SUCESS: CATEGORIE_LIST_SUCESS,
+          FAIL: CATEGORIE_LIST_FAIL,
+          REQUEST: CATEGORIE_LIST_REQUEST,
+        }
+      )
+    );
   }, [userInfo, history]);
 
   return (
@@ -59,7 +59,13 @@ export default function NavigationBar(history) {
     >
       <Container>
         <LinkContainer to="/">
-          <Navbar.Brand>Ferreteria</Navbar.Brand>
+          <Navbar.Brand>
+            <img
+              height="50"
+              className="d-inline-block align-top"
+              src="https://res.cloudinary.com/jordiespinoza/image/upload/v1624151602/2_yo0yx8.png"
+            />
+          </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="navbar1" />
         <Navbar.Collapse id="navbar1">
@@ -71,8 +77,8 @@ export default function NavigationBar(history) {
               <Nav.Link>Tienda</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Categorias" id="collasible-nav-dropdown">
-              {categories?.map(cat => {
-                return(
+              {categories?.map((cat) => {
+                return (
                   <LinkContainer to={`/categories/${cat.name}`}>
                     <NavDropdown.Item>{cat.name}</NavDropdown.Item>
                   </LinkContainer>
@@ -112,6 +118,12 @@ export default function NavigationBar(history) {
                     </LinkContainer>
                   </NavDropdown>
                 )}
+                <LinkContainer to="/cart">
+                  <Nav.Link>
+                    <i className="fas fa-shopping-cart"></i>
+                    <span className="cart-counter">{cartItems == undefined ? 0: cartItems.length}</span>
+                  </Nav.Link>
+                </LinkContainer>
               </>
             ) : (
               <LinkContainer to="/login">
@@ -120,11 +132,6 @@ export default function NavigationBar(history) {
                 </Nav.Link>
               </LinkContainer>
             )}
-            <LinkContainer to="/">
-              <Nav.Link>
-                <i className="fas fa-shopping-cart"></i>
-              </Nav.Link>
-            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>

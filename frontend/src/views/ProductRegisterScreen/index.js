@@ -82,7 +82,7 @@ export default function ProductRegisterScreen({ match, history }) {
     const productData = new FormData();
     productData.append("name", product.name);
     productData.append("lastName", product.lastName);
-    productData.append("price", product.price);
+    productData.append("price",  "sdad");
     productData.append("countInStock", product.countInStock);
     productData.append("description", product.description);
     productData.append("categorie", categorieId);
