@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.db import connection
 import os, sys
+from base.serializers import orderSerializer
 
 # cursor = connection.cursor()
 
@@ -13,7 +14,7 @@ def createOrder(request):
     data = request.data
     cursor = connection.cursor()
     try:
-        # print(data["items"])
+        print(data["items"])
         cursor.execute(
             f"INSERT INTO ORDENES (idUsuario, pais, ciudad, calle, zipcode, statusEnvio, statusPago) VALUES({data['idUser']}, '{data['country']}','{data['city']}', '{data['street']}', {data['zipcode']}, 'pedido', 'pagado')"
         )
@@ -37,13 +38,22 @@ def createOrder(request):
 
 
 @api_view(["GET"])
-def getUsers(request):
+def getOrdersById(request, pk):
     try:
-        cursor.execute("SELECT * FROM ORDERS")
+        cursor = connection.cursor()
+
+        cursor.execute(f"SELECT * FROM ORDENES WHERE idUsuario = {pk} ORDER BY idOrden DESC;")
         r = cursor.fetchall()
-        return Response(r)
+        orders = orderSerializer(r, many=True)
+        return Response(orders)
     except Exception as e:
-        print(str(e))
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])

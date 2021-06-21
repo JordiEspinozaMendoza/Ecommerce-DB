@@ -96,23 +96,40 @@ def categorieSerializer(queries, many):
     return categories
 
 
-def orderSerializer(queries):
-    orders = []
-    for order in queries:
-        orders.append(
-            {
-                "id": order[0],
-                "idUser": order[1],
-                "suburb": order[2],
-                "city": order[3],
-                "street": order[4],
-                "zipcode": order[5],
-                "shippingStatus": order[6],
-                "paymentStatus": order[7],
+def orderSerializer(queries, many):
+    try:
+        if many == False:
+            orders = {
+                "id": queries[0],
+                "idUser": queries[1],
+                "country": queries[2],
+                "city": queries[3],
+                "street": queries[4],
+                "zip": queries[5],
+                "statusDeliver": queries[6],
+                "statusPay": queries[7],
             }
-        )
-    return orders
+        else:
+            orders = []
+            for order in queries:
+                orders.append(
+                    {
+                        "id": order[0],
+                        "idUser": order[1],
+                        "country": order[2],
+                        "city": order[3],
+                        "street": order[4],
+                        "zip": order[5],
+                        "statusDeliver": order[6],
+                        "statusPay": order[7],
+                    }
+                )
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
 
+    return orders
 
 def orderArticleSerializer(queries):
     orderArticles = []

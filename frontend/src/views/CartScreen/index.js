@@ -58,6 +58,7 @@ export default function CartScreen({ match, location, history }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    order.items = cartItems;
     dispatch(
       callApi("/api/orders/createorder/", "POST", order, {
         SUCESS: ORDER_CREATE_SUCESS,

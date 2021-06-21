@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Row, Col, Button, Form } from "react-bootstrap";
-
+import { Table, Row, Col, Button, Form } from "react-bootstrap";
+import { callApi } from "../../api";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
+import {
+  ORDER_LIST_FAIL,
+  ORDER_LIST_RESET,
+  ORDER_LIST_SUCESS,
+  ORDER_LIST_REQUEST,
+} from "../../constants/orderConstants";
 export default function ProfileScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -13,7 +21,13 @@ export default function ProfileScreen({ history }) {
     email: userInfo?.email,
     password: userInfo?.password,
   };
-
+  const orderList = useSelector((state) => state.orderList);
+  const {
+    orders,
+    loading: loadingOrders,
+    error: errorOrders,
+    success: successOrders,
+  } = orderList;
   const [user, setUser] = useState(initialState);
   const { name, lastName, email, password } = user;
   const [password2, setPassword2] = useState("");
@@ -25,8 +39,20 @@ export default function ProfileScreen({ history }) {
   };
   useEffect(() => {
     userInfo == null && history.push("/");
+    dispatch(
+      callApi(
+        `/api/orders/getorders/${userInfo?.id}/`,
+        "GET",
+        {},
+        {
+          SUCESS: ORDER_LIST_SUCESS,
+          REQUEST: ORDER_LIST_REQUEST,
+          FAIL: ORDER_LIST_FAIL,
+        }
+      )
+    );
   }, [history, dispatch]);
-  
+
   return (
     <>
       <Row style={{ minHeight: "100vh", overflowX: "hidden" }}>
@@ -91,7 +117,48 @@ export default function ProfileScreen({ history }) {
           </Form>
         </Col>
         <Col xl={8} className="p-5">
-          <h2>Mis pedidos</h2>
+          {loadingOrders ? (
+            <Loader />
+          ) : errorOrders ? (
+            <Message variant="danger">{errorOrders}</Message>
+          ) : (
+            <>
+              {" "}
+              <h2>Mis pedidos</h2>
+              <Table
+                striped
+                bordered
+                hover
+                responsive
+                className="table-sm mt-3"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>País</th>
+                    <th>Ciudad</th>
+                    <th>Calle</th>
+                    <th>Zipcode</th>
+                    <th>Status envio</th>
+                    <th>Status pago</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders?.map((order) => (
+                    <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>{order.country}</td>
+                      <td>{order.city}</td>
+                      <td>{order.street}</td>
+                      <td>{order.zip}</td>
+                      <td>{order.statusDeliver}</td>
+                      <td>{order.statusPay}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </>
+          )}
         </Col>
       </Row>
     </>

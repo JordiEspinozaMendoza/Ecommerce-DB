@@ -83,4 +83,8 @@
     padding: 5rem 1rem !important;
   }
 }
+
+body {
+  overflow-x: hidden;
+}
 /*# sourceMappingURL=styles.css.map */
