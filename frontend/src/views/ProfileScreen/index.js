@@ -11,6 +11,13 @@ import {
   ORDER_LIST_SUCESS,
   ORDER_LIST_REQUEST,
 } from "../../constants/orderConstants";
+import {
+  USER_LOGIN_SUCESS,
+  USER_UPDATE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_RESET,
+  USER_UPDATE_SUCESS,
+} from "../../constants/userConstants";
 export default function ProfileScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -31,14 +38,32 @@ export default function ProfileScreen({ history }) {
   const [user, setUser] = useState(initialState);
   const { name, lastName, email, password } = user;
   const [password2, setPassword2] = useState("");
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+    user: userUpdated,
+  } = userUpdate;
   const handleChange = (event) => {
     setUser({
       ...user,
       [event.target.name]: event.target.value,
     });
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(
+      callApi(`/api/users/updateuser/${userInfo?.id}/`, "PUT", user, {
+        SUCESS: USER_UPDATE_SUCESS,
+        REQUEST: USER_UPDATE_REQUEST,
+        FAIL: USER_UPDATE_FAIL,
+      })
+    );
+  };
   useEffect(() => {
-    userInfo == null && history.push("/");
+    !userInfo && history.push("/");
     dispatch(
       callApi(
         `/api/orders/getorders/${userInfo?.id}/`,
@@ -51,6 +76,16 @@ export default function ProfileScreen({ history }) {
         }
       )
     );
+    if (successUpdate) {
+      localStorage.setItem("userInfo", JSON.stringify(userUpdated));
+      dispatch({
+        type: USER_LOGIN_SUCESS,
+        payload: userUpdated,
+      });
+    }
+  }, [history, dispatch, successUpdate,userInfo]);
+  useEffect(() => {
+    dispatch({ type: USER_UPDATE_RESET });
   }, [history, dispatch]);
 
   return (
@@ -58,11 +93,18 @@ export default function ProfileScreen({ history }) {
       <Row style={{ minHeight: "100vh", overflowX: "hidden" }}>
         <Col xl={4} className="p-5">
           <h2>Perfil</h2>
-          <Form>
+          {successUpdate && (
+            <Message variant="success">
+              Perfil actualizado correctamente
+            </Message>
+          )}
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Nombre</Form.Label>
               <Form.Control
+                onChange={handleChange}
                 id="name"
+                name="name"
                 placeholder="Ingresa el nombre"
                 required
                 value={name}
@@ -111,9 +153,14 @@ export default function ProfileScreen({ history }) {
                 required
               />
             </Form.Group>
-            <Button type="submit" variant="success" className="mt-4">
-              Actualizar perfil
-            </Button>
+            {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
+            {loadingUpdate ? (
+              <Loader />
+            ) : (
+              <Button type="submit" variant="success" className="mt-4">
+                Actualizar perfil
+              </Button>
+            )}
           </Form>
         </Col>
         <Col xl={8} className="p-5">

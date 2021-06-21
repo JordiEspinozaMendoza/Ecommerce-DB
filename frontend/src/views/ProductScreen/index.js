@@ -16,7 +16,9 @@ import {
   PRODUCT_LIST_SUCESS,
 } from "../../constants/productConstants";
 
-export default function ProductScreen({history}) {
+
+
+export default function ProductScreen({ history }) {
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const productList = useSelector((state) => state.productList);
@@ -83,7 +85,7 @@ export default function ProductScreen({history}) {
                     type="button"
                     onClick={addToCartHandler}
                     className="btn btn-primary"
-                    disabled={selectedProduct?.countInStock === 0}
+                    disabled={selectedProduct?.countInStock === 0 || !userInfo}
                   >
                     Añadir al carro <i className="fas fa-shopping-cart"></i>
                   </button>

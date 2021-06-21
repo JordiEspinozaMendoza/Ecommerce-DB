@@ -60,7 +60,8 @@ def register(request):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
-        return Response(str(e))
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -89,9 +90,9 @@ def login(request):
 def update(request, pk):
     try:
         cursor = connection.cursor()
-        data = request.data.get
+        data = request.data
         cursor.execute(
-            f"SELECT idUsuario, correoUsuario FROM USUARIOS WHERE  correoUsuario='{data['email']}' AND idUsuario <>{data['id']}"
+            f"SELECT idUsuario, correoUsuario FROM USUARIOS WHERE correoUsuario='{data['email']}' AND idUsuario <>{int(pk)};"
         )
         r = cursor.fetchone()
         print(r)
@@ -102,16 +103,24 @@ def update(request, pk):
         if len(data["password"]) < 5:
             content = {"detail": "La contraseña es muy corta, intente con otra"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        
         cursor.execute(
-            f"UPDATE USUARIOS SET nombreUsuario = '{data['name']}', apellidoUsuario = '{data['lastname']}', correoUsuario = '{data['email']}', correoUsuario = '{data['password']}' WHERE idUsuario={pk}"
+            f"UPDATE USUARIOS SET nombreUsuario = '{data['name']}', apellidoUsuario = '{data['lastName']}', correoUsuario = '{data['email']}', passwordUsuario = '{data['password']}' WHERE idUsuario={pk}"
         )
-
+        cursor.execute(
+            f"SELECT * FROM USUARIOS WHERE idUsuario ={pk};"
+        )
         r = cursor.fetchone()
-        return Response("200")
+        user = userSerializer(r, many=False)
+        cursor.close()
+        return Response(user)
     except Exception as e:
         cursor.close()
-        print(str(e))
-        return Response(str(e))
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["DELETE"])

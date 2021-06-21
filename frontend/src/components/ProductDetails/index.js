@@ -1,5 +1,6 @@
 //React
 import { Col, Row, Card, Container } from "react-bootstrap";
+import ImageZoom from "react-medium-image-zoom";
 
 export default function ProductDetails({ product, children }) {
   return (
@@ -7,11 +8,17 @@ export default function ProductDetails({ product, children }) {
       <Container className="m-4 p-3 mx-auto">
         <Row style={{ overflowX: "hidden" }}>
           <Col key="1" sm={12} md={6} lg={4} xl={3}>
-            <img
-              className="rounded img-responsive w-100 mx-auto mb-3 shadow"
-              alt="Producto que se vende"
-              src={product?.img}
-            ></img>
+          <ImageZoom
+              image={{
+                src: product?.img,
+                alt: `${product?.name}`,
+                className: "rounded img-responsive w-100 mx-auto mb-3 shadow",
+              }}
+              zoomImage={{
+                src: product?.img,
+                alt: `${product?.name}`,
+              }}
+            />
           </Col>
           <Col key="2">
             <div className="mx-auto rounded mb-3">

@@ -34,13 +34,7 @@ export default function RegisterScreen({ history }) {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { success: succesLogin } = userLogin;
-  const orderList = useSelector((state) => state.orderList);
-  const {
-    orders,
-    loading: loadingOrders,
-    error: errorOrders,
-    success: successOrders,
-  } = orderList;
+
 
   const dispatch = useDispatch();
   const handleChange = (event) => {
@@ -79,81 +73,79 @@ export default function RegisterScreen({ history }) {
     }
   }, [history, userInfo]);
   return (
+    <Container className="form-container">
+      <h1 className="text-center">Registro</h1>
+      <span className="text-dark d-block text-center">
+        Llena los campos correspondientes para registrarte
+      </span>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="name">
+          <Form.Label>Nombre</Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            name="name"
+            type="text"
+            placeholder="Ingresa tu nombre"
+            value={name}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="lastaName">
+          <Form.Label>Apellidos</Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            name="lastName"
+            type="text"
+            placeholder="Ingresa tus apellidos"
+            value={lastName}
+          />
+        </Form.Group>
+        <Form.Group controlId="email">
+          <Form.Label>Correo</Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            name="email"
+            type="text"
+            placeholder="Ingresa tu correo"
+            value={email}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="lastaName">
+          <Form.Label>Contraseña</Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            name="password"
+            type="password"
+            placeholder="Ingresa tu contraseña"
+            value={password}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="lastaName">
+          <Form.Label>Confirma contraseña</Form.Label>
+          <Form.Control
+            name="password2"
+            type="password"
+            placeholder="Confirma tu contraseña"
+            value={password2}
+            onChange={(event) => setPassword2(event.target.value)}
+            required
+          />
+        </Form.Group>
 
-        <Container className="form-container">
-          <h1 className="text-center">Registro</h1>
-          <span className="text-dark d-block text-center">
-            Llena los campos correspondientes para registrarte
-          </span>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="name">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                onChange={handleChange}
-                name="name"
-                type="text"
-                placeholder="Ingresa tu nombre"
-                value={name}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="lastaName">
-              <Form.Label>Apellidos</Form.Label>
-              <Form.Control
-                onChange={handleChange}
-                name="lastName"
-                type="text"
-                placeholder="Ingresa tus apellidos"
-                value={lastName}
-              />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Correo</Form.Label>
-              <Form.Control
-                onChange={handleChange}
-                name="email"
-                type="text"
-                placeholder="Ingresa tu correo"
-                value={email}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="lastaName">
-              <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                onChange={handleChange}
-                name="password"
-                type="password"
-                placeholder="Ingresa tu contraseña"
-                value={password}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="lastaName">
-              <Form.Label>Confirma contraseña</Form.Label>
-              <Form.Control
-                name="password2"
-                type="password"
-                placeholder="Confirma tu contraseña"
-                value={password2}
-                onChange={(event) => setPassword2(event.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <span className="text-dark d-block text-center mt-4">
-              Si ya cuentas con una cuenta, haz login{" "}
-              <Link to="/login">aqui</Link>
-            </span>
-            {error && <Message variant="danger">{error}</Message>}
-            {loading ? (
-              <Loader />
-            ) : (
-              <Button type="submit" variant="success" className="mt-4">
-                Registrarme
-              </Button>
-            )}
-          </Form>
-        </Container>
+        <span className="text-dark d-block text-center mt-4">
+          Si ya cuentas con una cuenta, haz login <Link to="/login">aqui</Link>
+        </span>
+        {error && <Message variant="danger">{error}</Message>}
+        {loading ? (
+          <Loader />
+        ) : (
+          <Button type="submit" variant="success" className="mt-4">
+            Registrarme
+          </Button>
+        )}
+      </Form>
+    </Container>
   );
 }

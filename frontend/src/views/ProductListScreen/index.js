@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import {
-  Button,
-  Row,
-  Col,
-  Container,
-  Form,
-} from "react-bootstrap";
+import { Button, Row, Col, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +10,9 @@ import Loader from "../../components/Loader";
 //api
 import { callApi } from "../../api";
 import {
+  PRODUCT_DELETE_FAIL,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCESS,
@@ -27,6 +24,25 @@ export default function ProductListScreen({ history }) {
   const { loading, products, error } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const { success: successDelete, loading: loadingDelete } = productDelete;
+  const handleDelete = (id) => {
+    if (window.confirm("Seguro que deseas eliminar este producto?")) {
+      dispatch(
+        callApi(
+          `/api/products/delete/${id}/`,
+          "DELETE",
+          {},
+          {
+            SUCESS: PRODUCT_DELETE_SUCESS,
+            FAIL: PRODUCT_DELETE_FAIL,
+            REQUEST: PRODUCT_DELETE_REQUEST,
+          }
+        )
+      );
+    }
+  };
   useEffect(() => {
     if (userInfo?.isAdmin) {
       dispatch(
@@ -44,10 +60,10 @@ export default function ProductListScreen({ history }) {
     } else {
       history.push("/");
     }
-  }, [userInfo, history]);
+  }, [userInfo, history, successDelete]);
   console.log("a");
   return (
-    <Container className="mt-5" style={{minHeight:"80vh"}}>
+    <Container className="mt-5" style={{ minHeight: "80vh" }}>
       <Row>
         <Col>
           <h1>Productos</h1>
@@ -85,9 +101,7 @@ export default function ProductListScreen({ history }) {
                 {products?.map((product) => (
                   <Col xs={12} className="d-flex justify-content-center m-0">
                     <ProductPanel product={product}>
-                      <LinkContainer
-                        to={`/admin/products/edit/${product.id}/`}
-                      >
+                      <LinkContainer to={`/admin/products/edit/${product.id}/`}>
                         <Button variant="primary" className="btn-sm mr-2">
                           <i className="fas fa-edit"></i>
                         </Button>
@@ -95,6 +109,9 @@ export default function ProductListScreen({ history }) {
                       <Button
                         variant="danger"
                         className="btn-sm"
+                        onClick={() => {
+                          handleDelete(product.id);
+                        }}
                       >
                         <i className="fas fa-trash"></i>
                       </Button>

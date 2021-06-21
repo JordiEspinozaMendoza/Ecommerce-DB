@@ -116,6 +116,12 @@ export default function NavigationBar(history) {
                     <LinkContainer to="/admin/categories/">
                       <NavDropdown.Item>Categorias</NavDropdown.Item>
                     </LinkContainer>
+                    <LinkContainer to="/admin/users/">
+                      <NavDropdown.Item>Usuarios</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orders/">
+                      <NavDropdown.Item>Ordenes</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 )}
                 <LinkContainer to="/cart">

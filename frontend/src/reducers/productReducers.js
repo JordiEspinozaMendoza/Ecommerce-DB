@@ -15,6 +15,10 @@ import {
   PRODUCT_DETAILS_SUCESS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_RESET,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCESS,
+  PRODUCT_DELETE_FAIL,
+  PRODUCT_DELETE_RESET,
 } from "../constants/productConstants";
 
 export const productRegisterReducer = (
@@ -80,6 +84,23 @@ export const productListReducer = (
     case PRODUCT_LIST_FAIL:
       return { loading: false, success: false, error: action.payload };
     case PRODUCT_LIST_RESET:
+      return state;
+    default:
+      return state;
+  }
+};
+export const productDeleteReducer = (
+  state = { loading: false, error: null,success:null },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_DELETE_REQUEST:
+      return { loading: true, success: false };
+    case PRODUCT_DELETE_SUCESS:
+      return { loading: false, success: true, product: action.payload };
+    case PRODUCT_DELETE_FAIL:
+      return { loading: false, success: false, error: action.payload };
+    case PRODUCT_DELETE_RESET:
       return state;
     default:
       return state;
