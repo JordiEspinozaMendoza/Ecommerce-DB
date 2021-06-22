@@ -83,7 +83,7 @@ export default function ProfileScreen({ history }) {
         payload: userUpdated,
       });
     }
-  }, [history, dispatch, successUpdate,userInfo]);
+  }, [history, dispatch, successUpdate, userInfo]);
   useEffect(() => {
     dispatch({ type: USER_UPDATE_RESET });
   }, [history, dispatch]);
@@ -188,6 +188,7 @@ export default function ProfileScreen({ history }) {
                     <th>Zipcode</th>
                     <th>Status envio</th>
                     <th>Status pago</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -200,6 +201,11 @@ export default function ProfileScreen({ history }) {
                       <td>{order.zip}</td>
                       <td>{order.statusDeliver}</td>
                       <td>{order.statusPay}</td>
+                      <td>
+                        <Button variant="info" onClick = {()=>history.push(`/order/${order.id}`)}>
+                          <i className="fas fa-eye"></i>
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -108,6 +108,8 @@ export default function ProductEditScreen({ match, history }) {
     productData.append("categorie", categorieId);
     productData.append("image", image);
     productData.append("updateImage", updateImage);
+    productData.append("idCategorie", categorieId);
+
     dispatch(
       callApi(
         `/api/products/update/${productId}/`,
@@ -176,7 +178,7 @@ export default function ProductEditScreen({ match, history }) {
                 onChange={(e) => setCategorieId(e.target.value)}
               >
                 {categories?.map((categorie) => (
-                  <option value={categorie.id}>{categorie.name}</option>
+                  <option selected={productDeta?.categorie ===categorie.id} value={categorie.id}>{categorie.name}</option>
                 ))}
               </Form.Control>
             </Form.Group>

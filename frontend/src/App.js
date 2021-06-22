@@ -17,6 +17,8 @@ import CategorieScreen from "./views/CategorieScreen";
 import CategoriesScreen from "./views/CategoriesScreen";
 import CartScreen from "./views/CartScreen";
 import UsersListScreen from "./views/UsersListScreen";
+import OrderScreen from "./views/OrderScreen";
+import OrdersListScreen from "./views/OrdersListScreen";
 
 //Components
 import NavigationBar from "./components/NavBar";
@@ -67,10 +69,13 @@ function App() {
         component={ProductEditScreen}
         exact
       />
+      <Route path="/admin/orders/" component={OrdersListScreen} exact />
       <Route path="/admin/products/" component={ProductListScreen} exact />
       <Route path="/admin/users/" component={UsersListScreen} exact />
       {/* CART PATHS */}
       <Route path="/cart/:id?" component={CartScreen} />
+      {/* ORDER PATHS */}
+      <Route path="/order/:id?" component={OrderScreen} />
 
       <Footer />
     </Router>

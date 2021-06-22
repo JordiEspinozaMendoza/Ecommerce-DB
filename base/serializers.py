@@ -99,6 +99,7 @@ def categorieSerializer(queries, many):
 def orderSerializer(queries, many):
     try:
         if many == False:
+            orders={}
             orders = {
                 "id": queries[0],
                 "idUser": queries[1],
@@ -131,17 +132,40 @@ def orderSerializer(queries, many):
 
     return orders
 
-def orderArticleSerializer(queries):
-    orderArticles = []
-    for orderArticle in queries:
-        orderArticles.append(
-            {
-                "idProduct": orderArticle[0],
-                "idOrder": orderArticle[1],
-                "quantity": orderArticle[2],
-                "subtotal": orderArticle[3],
-                "tax": orderArticle[4],
-                "total": orderArticle[5],
+
+def orderArticleSerializer(queries, many):
+    try:
+        if many == False:
+            items = {
+                "idProduct": queries[0],
+                "idOrder": queries[1],
+                "qty": queries[2],
+                "subtotal": queries[3],
+                "tax": queries[4],
+                "total": queries[5],
+                "product": queries[6],
+                "price": queries[7],
+                "img": queries[8],
             }
-        )
-    return orderArticles
+        else:
+            items = []
+            for item in queries:
+                items.append(
+                    {
+                        "idProduct": item[0],
+                        "idOrder": item[1],
+                        "qty": item[2],
+                        "subtotal": item[3],
+                        "tax": item[4],
+                        "total": item[5],
+                        "product": item[6],
+                        "price": item[7],
+                        "img": item[8],
+                    }
+                )
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+    return items

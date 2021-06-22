@@ -13,7 +13,7 @@ def getProducts(request):
     try:
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria"
+            "SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria ORDER BY idProducto DESC"
         )
         r = cursor.fetchall()
         products = productSerializer(r, many=True)
@@ -58,8 +58,8 @@ def register(request):
         data = request.data
         image = request.FILES.get("image")
         reponseCloudinary = cloudinary.uploader.upload(image)
-        print(data['price'])
-        if type(data["price"]) == 'str':
+        print(data["price"])
+        if type(data["price"]) == "str":
             content = {"detail": "El precio debe ser un numero"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         cursor.execute(
@@ -83,21 +83,18 @@ def update(request, pk):
         cursor = connection.cursor()
         data = request.data
         print(data["updateImage"])
-        if isinstance(int(data["price"]), str):
-            return Response(
-                "El precio debe de ser un numero", status=status.HTTP_400_BAD_REQUEST
-            )
+
         if data["updateImage"] == "false":
             print(data)
             cursor.execute(
-                f"UPDATE PRODUCTOS SET nombreProducto = '{data['name']}', descripcionProducto = '{data['description']}', precioProducto = '{data['price']}', cantidadStock = '{data['countInStock']}' WHERE idProducto={pk}"
+                f"UPDATE PRODUCTOS SET nombreProducto = '{data['name']}', descripcionProducto = '{data['description']}', precioProducto = '{data['price']}', cantidadStock = '{data['countInStock']}', idCategoria = {data['idCategorie']} WHERE idProducto={pk}"
             )
         else:
             print("aaaa")
             image = request.FILES.get("image")
             reponseCloudinary = cloudinary.uploader.upload(image)
             cursor.execute(
-                f"UPDATE PRODUCTOS SET nombreProducto = '{data['name']}', descripcionProducto = '{data['description']}', precioProducto = '{data['price']}', cantidadStock = '{data['countInStock']}', imagen = '{reponseCloudinary['secure_url']}' WHERE idProducto={pk}"
+                f"UPDATE PRODUCTOS SET nombreProducto = '{data['name']}', descripcionProducto = '{data['description']}', precioProducto = '{data['price']}', cantidadStock = '{data['countInStock']}', idCategoria = {data['idCategorie']},imagen = '{reponseCloudinary['secure_url']}' WHERE idProducto={pk}"
             )
         cursor.close()
         return Response("200")
