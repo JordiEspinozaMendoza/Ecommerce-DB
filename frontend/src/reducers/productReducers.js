@@ -19,6 +19,10 @@ import {
   PRODUCT_DELETE_SUCESS,
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_RESET,
+  PRODUCT_SEARCH_FAIL,
+  PRODUCT_SEARCH_REQUEST,
+  PRODUCT_SEARCH_RESET,
+  PRODUCT_SEARCH_SUCESS,
 } from "../constants/productConstants";
 
 export const productRegisterReducer = (
@@ -55,10 +59,7 @@ export const productUpdateReducer = (
       return state;
   }
 };
-export const productDetailsReducer = (
-  state = { },
-  action
-) => {
+export const productDetailsReducer = (state = {}, action) => {
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
       return { loading: true, success: false };
@@ -68,6 +69,23 @@ export const productDetailsReducer = (
       return { loading: false, success: false, error: action.payload };
     case PRODUCT_DETAILS_RESET:
       return { loading: false, success: false, error: null, product: null };
+    default:
+      return state;
+  }
+};
+export const productSearchReducer = (
+  state = { loading: false, error: null, products: null },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_SEARCH_REQUEST:
+      return { loading: true, success: false };
+    case PRODUCT_SEARCH_SUCESS:
+      return { loading: false, success: true, products: action.payload };
+    case PRODUCT_SEARCH_FAIL:
+      return { loading: false, success: false, error: action.payload };
+    case PRODUCT_SEARCH_RESET:
+      return state;
     default:
       return state;
   }
@@ -90,7 +108,7 @@ export const productListReducer = (
   }
 };
 export const productDeleteReducer = (
-  state = { loading: false, error: null,success:null },
+  state = { loading: false, error: null, success: null },
   action
 ) => {
   switch (action.type) {

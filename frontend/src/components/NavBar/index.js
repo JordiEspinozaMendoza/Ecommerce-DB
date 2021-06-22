@@ -1,5 +1,5 @@
 //React
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Navbar,
@@ -32,6 +32,7 @@ export default function NavigationBar(history) {
   const categorieList = useSelector((state) => state.categorieList);
   const { loadingCat, categories, errorCat } = categorieList;
 
+  const [search, setSearch]= useState("");
   //GET
   useEffect(() => {
     dispatch(
@@ -93,8 +94,12 @@ export default function NavigationBar(history) {
                 placeholder="Busca un articulo"
                 className="mr-3"
                 aria-label="Search"
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
               ></FormControl>
-              <Button variant="warning">Buscar</Button>
+              <Link to={`/searchproducts/${search}`}>
+                <Button variant="warning">Buscar</Button>
+              </Link>
             </Form>
             {userInfo ? (
               <>
@@ -127,7 +132,9 @@ export default function NavigationBar(history) {
                 <LinkContainer to="/cart">
                   <Nav.Link>
                     <i className="fas fa-shopping-cart"></i>
-                    <span className="cart-counter">{cartItems == undefined ? 0: cartItems.length}</span>
+                    <span className="cart-counter">
+                      {cartItems == undefined ? 0 : cartItems.length}
+                    </span>
                   </Nav.Link>
                 </LinkContainer>
               </>

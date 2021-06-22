@@ -30,6 +30,27 @@ def getProducts(request):
 
 
 @api_view(["GET"])
+def search(request, querie):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(
+            f"SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria WHERE PRODUCTOS.nombreProducto LIKE '%{querie}%' ORDER BY idProducto DESC"
+        )
+        r = cursor.fetchall()
+        products = productSerializer(r, many=True)
+        cursor.close()
+        return Response(products)
+    except Exception as e:
+        cursor.close()
+        print(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
 def getProduct(request, pk):
     try:
         cursor = connection.cursor()

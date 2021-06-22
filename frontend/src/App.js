@@ -19,6 +19,7 @@ import CartScreen from "./views/CartScreen";
 import UsersListScreen from "./views/UsersListScreen";
 import OrderScreen from "./views/OrderScreen";
 import OrdersListScreen from "./views/OrdersListScreen";
+import SearchScreen from "./views/SearchScreen";
 
 //Components
 import NavigationBar from "./components/NavBar";
@@ -76,6 +77,7 @@ function App() {
       <Route path="/cart/:id?" component={CartScreen} />
       {/* ORDER PATHS */}
       <Route path="/order/:id?" component={OrderScreen} />
+      <Route path="/searchproducts/:search?" component={SearchScreen} />
 
       <Footer />
     </Router>

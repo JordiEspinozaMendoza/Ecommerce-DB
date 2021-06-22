@@ -16,6 +16,7 @@ import {
   productUpdateReducer,
   productDetailsReducer,
   productDeleteReducer,
+  productSearchReducer
 } from "./reducers/productReducers";
 import {
   categorieRegisterReducer,
@@ -47,6 +48,7 @@ const reducer = combineReducers({
   productUpdate: productUpdateReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
+  productSearch: productSearchReducer,
   //Categories
   categorieRegister: categorieRegisterReducer,
   categorieList: categorieListReducer,
