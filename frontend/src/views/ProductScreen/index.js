@@ -16,8 +16,6 @@ import {
   PRODUCT_LIST_SUCESS,
 } from "../../constants/productConstants";
 
-
-
 export default function ProductScreen({ history }) {
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
@@ -26,7 +24,9 @@ export default function ProductScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const addToCartHandler = (e) => {
-    history.push(`/cart/${selectedProduct.id}?qty=${qty}`);
+    userInfo
+      ? history.push(`/cart/${selectedProduct.id}?qty=${qty}`)
+      : history.push("/login");
   };
   //GET
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function ProductScreen({ history }) {
                     type="button"
                     onClick={addToCartHandler}
                     className="btn btn-primary"
-                    disabled={selectedProduct?.countInStock === 0 || !userInfo}
+                    disabled={selectedProduct?.countInStock === 0}
                   >
                     Añadir al carro <i className="fas fa-shopping-cart"></i>
                   </button>

@@ -22,7 +22,7 @@ def userSerializer(queries, many):
                         "name": user[1],
                         "lastName": user[2],
                         "email": user[3],
-                        "password": user[4],
+                        # "password": user[4],
                         "isAdmin": True if user[5] == 1 else False,
                     }
                 )

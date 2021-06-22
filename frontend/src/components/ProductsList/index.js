@@ -8,10 +8,10 @@ try{
 }catch(e){}
   return (
     <Container className="">
-      <Row key={key} style={{ overflowX: "show" }}>
+      <Row >
         {products?.map((product) => {
           return(
-            <Col key={products?.indexOf(product)} lg={"auto"} md={"auto"} className="d-flex justify-content-center flex-fill">
+            <Col key={products?.indexOf(product)} lg={3} md={4} sm={6} xs={6} className="justify-content-center align-items-center">
               <Product product={product}/>
             </Col>
           );

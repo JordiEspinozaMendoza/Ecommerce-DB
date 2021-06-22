@@ -8,12 +8,12 @@ export default function Footer() {
         <Col className="text-light" md={6}>
           <h4 className="text-light">Sobre el proyecto</h4>
           <span>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged
+            El fin de este proyecto es crear una página web que permita el
+            registro de usuarios, así como de su ingreso a la página para poder
+            realizar compras por internet, Se desplegarán algunas pantallas que
+            formarán parte de la interfaz de usuario. Asimismo se verán los
+            artículos que el cliente pueda comprar y agregar al carrito de
+            compras.
           </span>
         </Col>
         <Col md={6} className="text-light" className="text-light">
@@ -25,8 +25,18 @@ export default function Footer() {
               </Link>
             </p>
             <p className="text-light">
-              <Link to="/admin/product/edit" className="text-light">
+              <Link to="/products" className="text-light">
                 Productos
+              </Link>
+            </p>
+            <p className="text-light">
+              <Link to="/register" className="text-light">
+                Registro
+              </Link>
+            </p>
+            <p className="text-light">
+              <Link to="/login" className="text-light">
+                Login
               </Link>
             </p>
           </div>

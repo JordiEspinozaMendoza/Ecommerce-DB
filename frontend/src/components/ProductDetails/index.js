@@ -1,14 +1,14 @@
 //React
 import { Col, Row, Card, Container } from "react-bootstrap";
 import ImageZoom from "react-medium-image-zoom";
-
+import { Link } from "react-router-dom";
 export default function ProductDetails({ product, children }) {
   return (
     <>
       <Container className="m-4 p-3 mx-auto">
         <Row style={{ overflowX: "hidden" }}>
           <Col key="1" sm={12} md={6} lg={4} xl={3}>
-          <ImageZoom
+            <ImageZoom
               image={{
                 src: product?.img,
                 alt: `${product?.name}`,
@@ -22,9 +22,15 @@ export default function ProductDetails({ product, children }) {
           </Col>
           <Col key="2">
             <div className="mx-auto rounded mb-3">
-              <h6 className="mx-auto mb-1 bg-warning rounded p-1 text-center text-white">
-                {product?.nameCategorie}
-              </h6>
+              <Link
+                to={`/categories/${product.nameCategorie}`}
+                style={{ textDecoration: "none" }}
+              >
+                <h6 className="mx-auto mb-1 bg-warning rounded p-1 text-center text-white">
+                  {product?.nameCategorie}
+                </h6>
+              </Link>
+
               <h3 className="text-center py-3">{product?.name}</h3>
               <div className="pt-2">{product?.description}</div>
             </div>
@@ -42,7 +48,6 @@ export default function ProductDetails({ product, children }) {
                 </Card.Text>
               </Card.Body>
               {children}
-
             </Card>
           </Col>
         </Row>

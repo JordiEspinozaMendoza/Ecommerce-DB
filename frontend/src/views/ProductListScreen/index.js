@@ -79,7 +79,7 @@ export default function ProductListScreen({ history }) {
             </Button>
           </Link>
         </Col>
-        <Row>
+        {/* <Row>
           <Col>
             <Form inline>
               <Form.Control
@@ -91,7 +91,7 @@ export default function ProductListScreen({ history }) {
               </Button>
             </Form>
           </Col>
-        </Row>
+        </Row> */}
         <>
           <Row className="w-100 m-0">
             {loading ? (

@@ -14,7 +14,7 @@ def getUsers(request):
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM USUARIOS")
         r = cursor.fetchall()
-        users = userSerializer(r)
+        users = userSerializer(r, True)
         return Response(users)
     except Exception as e:
         cursor.close()
@@ -127,9 +127,36 @@ def update(request, pk):
 def delete(request, pk):
     try:
         cursor = connection.cursor()
-        cursor.execute(f"DELETE FROM USUARIOS WHERE idUsuario = {pk}")
+        cursor.execute(f"DELETE FROM USUARIOS WHERE idUsuario = {int(pk)}")
+        cursor.close()
         return Response("200")
     except Exception as e:
-        cursor.close()
         print(str(e))
-        return Response(str(e))
+        cursor.close()
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+@api_view(["PUT"])
+def changePrivilegies(request, pk):
+    try:
+        cursor = connection.cursor()
+        data = request.data
+        
+        if(data["isAdmin"] == True):
+            isAdmin=1
+        else:
+            isAdmin=0
+
+        cursor.execute(f"UPDATE USUARIOS SET esAdmin = {isAdmin} WHERE idUsuario = {int(pk)}")
+        cursor.close()
+        return Response("200")
+    except Exception as e:
+        print(str(e))
+        cursor.close()
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        content = {"detail": "Algo ha ocurrido"}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
