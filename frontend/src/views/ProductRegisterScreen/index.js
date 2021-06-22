@@ -35,7 +35,7 @@ export default function ProductRegisterScreen({ match, history }) {
 
   const [product, setProduct] = useState(initialState);
   const [image, setImage] = useState();
-  const [categorieId, setCategorieId] =useState(1);
+  const [categorieId, setCategorieId] = useState(1);
   const productRegister = useSelector((state) => state.productRegister);
   const {
     loading,
@@ -82,7 +82,7 @@ export default function ProductRegisterScreen({ match, history }) {
     const productData = new FormData();
     productData.append("name", product.name);
     productData.append("lastName", product.lastName);
-    productData.append("price",  "sdad");
+    productData.append("price", product.price);
     productData.append("countInStock", product.countInStock);
     productData.append("description", product.description);
     productData.append("categorie", categorieId);
@@ -141,7 +141,11 @@ export default function ProductRegisterScreen({ match, history }) {
           onChange={handleChange}
         >
           <Form.Label>Categoria</Form.Label>
-          <Form.Control as="select" type="text" onChange={(e)=>setCategorieId(e.target.value)}>
+          <Form.Control
+            as="select"
+            type="text"
+            onChange={(e) => setCategorieId(e.target.value)}
+          >
             {categories?.map((categorie) => (
               <option value={categorie.id}>{categorie.name}</option>
             ))}

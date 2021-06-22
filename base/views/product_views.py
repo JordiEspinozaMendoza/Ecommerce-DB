@@ -58,7 +58,7 @@ def register(request):
         data = request.data
         image = request.FILES.get("image")
         reponseCloudinary = cloudinary.uploader.upload(image)
-        print()
+        print(data['price'])
         if type(data["price"]) == 'str':
             content = {"detail": "El precio debe ser un numero"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
