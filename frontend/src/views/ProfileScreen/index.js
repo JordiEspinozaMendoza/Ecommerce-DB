@@ -12,6 +12,7 @@ import {
   ORDER_LIST_REQUEST,
 } from "../../constants/orderConstants";
 import {
+  USER_DELETE_FAIL,
   USER_LOGIN_SUCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
@@ -54,13 +55,20 @@ export default function ProfileScreen({ history }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(
-      callApi(`/api/users/updateuser/${userInfo?.id}/`, "PUT", user, {
-        SUCESS: USER_UPDATE_SUCESS,
-        REQUEST: USER_UPDATE_REQUEST,
-        FAIL: USER_UPDATE_FAIL,
-      })
-    );
+    if(user.password == password2){
+      dispatch(
+        callApi(`/api/users/updateuser/${userInfo?.id}/`, "PUT", user, {
+          SUCESS: USER_UPDATE_SUCESS,
+          REQUEST: USER_UPDATE_REQUEST,
+          FAIL: USER_UPDATE_FAIL,
+        })
+      );
+    }else{
+      dispatch({
+        type: USER_UPDATE_FAIL,
+        payload: "Ambas contraseñas deben ser iguales",
+      });
+    }
   };
   useEffect(() => {
     !userInfo && history.push("/");

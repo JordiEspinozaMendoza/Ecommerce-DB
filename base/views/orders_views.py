@@ -24,6 +24,9 @@ def createOrder(request):
             cursor.execute(
                 f"INSERT INTO ORDEN_ARTICULO (idProducto, idOrden, cantidad, subTotal, TAX, total) VALUES({product['product']}, {last_id},{product['qty']},{int(product['qty'])*int(product['price'])}, 0, {int(product['qty'])*int(product['price'])})"
             )
+            cursor.execute(
+                f"UPDATE PRODUCTOS SET cantidadStock = cantidadStock - {int(product['qty'])} WHERE idProducto = {product['product']};"
+            )
         cursor.close()
         return Response("200")
 

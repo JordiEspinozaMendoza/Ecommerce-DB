@@ -35,7 +35,6 @@ export default function RegisterScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { success: succesLogin } = userLogin;
 
-
   const dispatch = useDispatch();
   const handleChange = (event) => {
     setUser({
@@ -45,13 +44,20 @@ export default function RegisterScreen({ history }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(
-      callApi("/api/users/register/", "POST", user, {
-        SUCESS: USER_REGISTER_SUCESS,
-        REQUEST: USER_REGISTER_REQUEST,
-        FAIL: USER_REGISTER_FAIL,
-      })
-    );
+    if (user.password == password2) {
+      dispatch(
+        callApi("/api/users/register/", "POST", user, {
+          SUCESS: USER_REGISTER_SUCESS,
+          REQUEST: USER_REGISTER_REQUEST,
+          FAIL: USER_REGISTER_FAIL,
+        })
+      );
+    } else {
+      dispatch({
+        type: USER_REGISTER_FAIL,
+        payload: "Ambas contraseñas deben ser iguales",
+      });
+    }
   };
   useEffect(() => {
     if (success) {

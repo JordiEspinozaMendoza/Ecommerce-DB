@@ -82,24 +82,31 @@ export default function ProductRegisterScreen({ match, history }) {
     const productData = new FormData();
     productData.append("name", product.name);
     productData.append("lastName", product.lastName);
-    productData.append("price", product.price);
+    productData.append("price",parseFloat(product.price));
     productData.append("countInStock", product.countInStock);
     productData.append("description", product.description);
     productData.append("categorie", categorieId);
     productData.append("image", image);
-    dispatch(
-      callApi(
-        "/api/products/register/",
-        "POST",
-        productData,
-        {
-          SUCESS: PRODUCT_REGISTER_SUCESS,
-          FAIL: PRODUCT_REGISTER_FAIL,
-          REQUEST: PRODUCT_REGISTER_REQUEST,
-        },
-        true
-      )
-    );
+    if (typeof productData.price === "string") {
+      dispatch({
+        type: PRODUCT_REGISTER_FAIL,
+        payload: "El precio debe de ser un numero",
+      });
+    } else {
+      dispatch(
+        callApi(
+          "/api/products/register/",
+          "POST",
+          productData,
+          {
+            SUCESS: PRODUCT_REGISTER_SUCESS,
+            FAIL: PRODUCT_REGISTER_FAIL,
+            REQUEST: PRODUCT_REGISTER_REQUEST,
+          },
+          true
+        )
+      );
+    }
   };
   useEffect(() => {
     if (!userInfo?.isAdmin) history.push("/");
@@ -155,7 +162,7 @@ export default function ProductRegisterScreen({ match, history }) {
           <Form.Label>Precio</Form.Label>
           <Form.Control
             name="price"
-            type="number"
+            type="text"
             placeholder="Ingresa el precio del producto"
             onChange={handleChange}
             required
@@ -176,6 +183,7 @@ export default function ProductRegisterScreen({ match, history }) {
             type="text"
             placeholder="Ingresa la imagen"
             value={image}
+            readOnly
           ></Form.Control>
           <Form.File
             id="image-file"

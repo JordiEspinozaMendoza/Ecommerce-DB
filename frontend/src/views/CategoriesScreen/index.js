@@ -107,13 +107,13 @@ export default function CategoriesScreen({ history }) {
                           <i className="fas fa-edit"></i>
                         </Button>
                       </LinkContainer>
-                      <Button
+                      {/* <Button
                         variant="danger"
                         className="btn-sm"
                         onClick={() => deleteCategorieHandler(categorie._id)}
                       >
                         <i className="fas fa-trash"></i>
-                      </Button>
+                      </Button> */}
                     </td>
                   </tr>
                 ))}

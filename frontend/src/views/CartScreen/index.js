@@ -56,6 +56,11 @@ export default function CartScreen({ match, location, history }) {
       [event.target.name]: event.target.value,
     });
   };
+  const removeFromCartHandler = (id) => {
+    console.log(id)
+
+    dispatch(removeFromCart(id))
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     order.items = cartItems;
@@ -141,6 +146,15 @@ export default function CartScreen({ match, location, history }) {
                           ))}
                         </Form.Control>
                       </Form.Group>
+                    </Col>
+                    <Col md={1}>
+                      <Button
+                        type="button"
+                        variant="light"
+                        onClick={() => removeFromCartHandler(product.product)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </Button>
                     </Col>
                   </Row>
                 </ListGroup.Item>
