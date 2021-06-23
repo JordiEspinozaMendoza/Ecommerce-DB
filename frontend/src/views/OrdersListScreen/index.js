@@ -87,6 +87,7 @@ export default function OrdersListScreen({ history }) {
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th>ID Usuario</th>
                     <th>País</th>
                     <th>Ciudad</th>
                     <th>Calle</th>
@@ -100,6 +101,7 @@ export default function OrdersListScreen({ history }) {
                   {orders?.map((order) => (
                     <tr key={order.id}>
                       <td>{order.id}</td>
+                      <td>{order.idUser}</td>
                       <td>{order.country}</td>
                       <td>{order.city}</td>
                       <td>{order.street}</td>
