@@ -19,6 +19,7 @@ import {
   USER_UPDATE_RESET,
   USER_UPDATE_SUCESS,
 } from "../../constants/userConstants";
+
 export default function ProfileScreen({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -63,7 +64,9 @@ export default function ProfileScreen({ history }) {
           FAIL: USER_UPDATE_FAIL,
         })
       );
-    }else{
+    }
+
+    else{
       dispatch({
         type: USER_UPDATE_FAIL,
         payload: "Ambas contraseñas deben ser iguales",

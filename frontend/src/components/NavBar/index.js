@@ -72,10 +72,10 @@ export default function NavigationBar(history) {
         <Navbar.Collapse id="navbar1">
           <Nav className="me-auto">
             <LinkContainer to="/">
-              <Nav.Link>Inicio</Nav.Link>
+              <Nav.Link><i class="fas fa-home"></i>Inicio</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/products/">
-              <Nav.Link>Tienda</Nav.Link>
+              <Nav.Link> <i class="fas fa-shopping-basket"></i> Tienda</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Categorias" id="collasible-nav-dropdown">
               {categories?.map((cat) => {
@@ -88,7 +88,7 @@ export default function NavigationBar(history) {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Form className="d-flex">
+            <Form onSubmit = {e=>e.preventDefault()} className="d-flex">
               <FormControl
                 type="search"
                 placeholder="Busca un articulo"
@@ -98,7 +98,7 @@ export default function NavigationBar(history) {
                 onChange={(e)=>setSearch(e.target.value)}
               ></FormControl>
               <Link to={`/searchproducts/${search}`}>
-                <Button variant="warning">Buscar</Button>
+                <Button variant="warning"><i class="fas fa-search"></i></Button>
               </Link>
             </Form>
             {userInfo ? (

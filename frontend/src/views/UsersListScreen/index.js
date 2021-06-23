@@ -76,7 +76,7 @@ export default function UserListScreen({ history }) {
     }
   };
   useEffect(() => {
-    !userInfo.isAdmin
+    !userInfo?.isAdmin
       ? history.push("/")
       : dispatch(
           callApi(
@@ -168,11 +168,7 @@ export default function UserListScreen({ history }) {
                       </Button>
                     </td>
                     <td>
-                      <LinkContainer to={`/admin/categories/edit/${user.id}/`}>
-                        <Button variant="light" className="btn-sm">
-                          <i className="fas fa-edit"></i>
-                        </Button>
-                      </LinkContainer>
+
                       <Button
                         variant="danger"
                         className="btn-sm"

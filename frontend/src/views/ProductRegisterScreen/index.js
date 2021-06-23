@@ -187,7 +187,6 @@ export default function ProductRegisterScreen({ match, history }) {
           ></Form.Control>
           <Form.File
             id="image-file"
-            label="Elegir imagen"
             custom
             onChange={(e) => {
               setImage(e.target.files[0]);

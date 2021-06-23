@@ -27,11 +27,11 @@ export default function ProductDetails({ product, children }) {
                 style={{ textDecoration: "none" }}
               >
                 <h6 className="mx-auto mb-1 bg-warning rounded p-1 text-center text-white">
-                  {product?.nameCategorie}
+                <i class="fas fa-hammer"></i>{" "}{product?.nameCategorie}
                 </h6>
               </Link>
 
-              <h3 className="text-center py-3">{product?.name}</h3>
+              <h3 className="text-center py-3"><i class="fas fa-hard-hat"></i> {" "}{product?.name}</h3>
               <div className="pt-2">{product?.description}</div>
             </div>
           </Col>
@@ -44,7 +44,7 @@ export default function ProductDetails({ product, children }) {
               </Card.Title>
               <Card.Body>
                 <Card.Text as="h5">
-                  Disponibles: {product?.countInStock}
+                  Disponibles: {product?.countInStock} unidades {" "} <i class="fas fa-toolbox"></i>
                 </Card.Text>
               </Card.Body>
               {children}

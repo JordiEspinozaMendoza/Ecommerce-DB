@@ -5,7 +5,7 @@ from rest_framework import status
 from django.db import connection
 from base.serializers import userSerializer
 import os, sys
-
+from base.validators import hasNumbers
 
 
 @api_view(["GET"])
@@ -35,7 +35,10 @@ def register(request):
             f"SELECT idUsuario, correoUsuario FROM USUARIOS WHERE  correoUsuario='{data['email']}'"
         )
         r = cursor.fetchone()
-        print(r)
+        if hasNumbers(data["name"]) or hasNumbers(data["lastName"]):
+            content = {"detail": "El nombre y apellido no llevan números"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+            
         if r != None:
             content = {"detail": f"El correo {r[1]} ya esta en uso"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
@@ -95,7 +98,10 @@ def update(request, pk):
             f"SELECT idUsuario, correoUsuario FROM USUARIOS WHERE correoUsuario='{data['email']}' AND idUsuario <>{int(pk)};"
         )
         r = cursor.fetchone()
-        print(r)
+        if hasNumbers(data["name"]) or hasNumbers(data["lastName"]):
+            content = {"detail": "El nombre y apellido no llevan números"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
         if r != None:
             content = {"detail": f"El correo {r[1]} ya esta en uso"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
@@ -103,13 +109,11 @@ def update(request, pk):
         if len(data["password"]) < 5:
             content = {"detail": "La contraseña es muy corta, intente con otra"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        
+
         cursor.execute(
             f"UPDATE USUARIOS SET nombreUsuario = '{data['name']}', apellidoUsuario = '{data['lastName']}', correoUsuario = '{data['email']}', passwordUsuario = '{data['password']}' WHERE idUsuario={pk}"
         )
-        cursor.execute(
-            f"SELECT * FROM USUARIOS WHERE idUsuario ={pk};"
-        )
+        cursor.execute(f"SELECT * FROM USUARIOS WHERE idUsuario ={pk};")
         r = cursor.fetchone()
         user = userSerializer(r, many=False)
         cursor.close()
@@ -138,18 +142,22 @@ def delete(request, pk):
         print(exc_type, fname, exc_tb.tb_lineno)
         content = {"detail": "Algo ha ocurrido"}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(["PUT"])
 def changePrivilegies(request, pk):
     try:
         cursor = connection.cursor()
         data = request.data
-        
-        if(data["isAdmin"] == True):
-            isAdmin=1
-        else:
-            isAdmin=0
 
-        cursor.execute(f"UPDATE USUARIOS SET esAdmin = {isAdmin} WHERE idUsuario = {int(pk)}")
+        if data["isAdmin"] == True:
+            isAdmin = 1
+        else:
+            isAdmin = 0
+
+        cursor.execute(
+            f"UPDATE USUARIOS SET esAdmin = {isAdmin} WHERE idUsuario = {int(pk)}"
+        )
         cursor.close()
         return Response("200")
     except Exception as e:

@@ -66,7 +66,7 @@ export default function ProductScreen({ history }) {
             <div className="p-3">
               {selectedProduct?.countInStock > 0 ? (
                 <>
-                  <h6>Cantidad a comprar</h6>
+                  <h6>Cantidad a comprar <i class="fas fa-shopping-basket"></i></h6>
                   <Form.Control
                     as="select"
                     className="mb-3"

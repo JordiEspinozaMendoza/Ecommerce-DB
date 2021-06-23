@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Link, link } from "react-router-dom";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Form, Button, Row, Col, Container,Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 // Components
@@ -205,15 +205,25 @@ export default function ProductEditScreen({ match, history }) {
             </Form.Group>
             <Form.Group controlId="image">
               <Form.Label>Imagen</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 type="text"
                 placeholder="Ingresa la imagen"
                 value={product?.img}
                 readOnly
-              ></Form.Control>
+              ></Form.Control> */}
+                            <div className="d-flex align-items-center w-100 justify-content-center">
+                {product?.img && (
+                  <Image
+                    className="d-block my-4 shadow"
+                    style={{ maxWidth: "330px", maxHeight: "250px" }}
+                    xs={6}
+                    md={4}
+                    src={product?.img}
+                  />
+                )}
+              </div>
               <Form.File
                 id="image-file"
-                label="Elegir imagen"
                 custom
                 onChange={(e) => {
                   setImage(e.target.files[0]);

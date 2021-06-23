@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Row, Col, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -16,12 +16,18 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCESS,
+  PRODUCT_SEARCH_FAIL,
+  PRODUCT_SEARCH_REQUEST,
+  PRODUCT_SEARCH_SUCESS,
+  PRODUCT_SEARCH_RESET,
 } from "../../constants/productConstants";
 
 export default function ProductListScreen({ history }) {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { loading, products, error } = productList;
+  const [querie, setQuerie] = useState("");
+
+  const productSearch = useSelector((state) => state.productSearch);
+  const { loading, products, error } = productSearch;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -44,23 +50,24 @@ export default function ProductListScreen({ history }) {
     }
   };
   useEffect(() => {
+
     if (userInfo?.isAdmin) {
       dispatch(
         callApi(
-          "/api/products/getproducts/",
+          `/api/products/search/${querie == "" ? "all": querie}`,
           "GET",
           {},
           {
-            SUCESS: PRODUCT_LIST_SUCESS,
-            FAIL: PRODUCT_LIST_FAIL,
-            REQUEST: PRODUCT_LIST_REQUEST,
+            SUCESS: PRODUCT_SEARCH_SUCESS,
+            FAIL: PRODUCT_SEARCH_FAIL,
+            REQUEST: PRODUCT_SEARCH_REQUEST,
           }
         )
       );
     } else {
       history.push("/");
     }
-  }, [userInfo, history, successDelete]);
+  }, [userInfo, history, successDelete, querie]);
   console.log("a");
   return (
     <Container className="mt-5" style={{ minHeight: "80vh" }}>
@@ -79,19 +86,18 @@ export default function ProductListScreen({ history }) {
             </Button>
           </Link>
         </Col>
-        {/* <Row>
+        <Row>
           <Col>
             <Form inline>
               <Form.Control
                 type="text"
                 placeholder="Buscar producto"
+                value={querie}
+                onChange={(e) => setQuerie(e.target.value)}
               ></Form.Control>
-              <Button type="submit" className="mt-2" variant="outline-success">
-                Buscar
-              </Button>
             </Form>
           </Col>
-        </Row> */}
+        </Row>
         <>
           <Row className="w-100 m-0">
             {loading ? (

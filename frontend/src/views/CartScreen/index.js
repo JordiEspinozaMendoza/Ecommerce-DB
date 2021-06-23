@@ -57,9 +57,9 @@ export default function CartScreen({ match, location, history }) {
     });
   };
   const removeFromCartHandler = (id) => {
-    console.log(id)
+    console.log(id);
 
-    dispatch(removeFromCart(id))
+    dispatch(removeFromCart(id));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -73,15 +73,16 @@ export default function CartScreen({ match, location, history }) {
     );
   };
   useEffect(() => {
+    !userInfo && history.push("/");
     if (productId && qty) {
       dispatch(addToCart(productId, qty));
     }
     setOrder({
       ...order,
-      idUser: userInfo.id,
+      idUser: userInfo?.id,
       items: cartItems,
     });
-  }, [dispatch, productId, qty]);
+  }, [dispatch, productId, qty, userInfo]);
   useEffect(() => {
     if (successOrder) {
       dispatch({ type: CART_CLEAR_ITEMS });
@@ -183,7 +184,7 @@ export default function CartScreen({ match, location, history }) {
                 localStorage.removeItem("cartItems");
               }}
             >
-              Limpiar carrito
+              <i class="fas fa-broom"></i>Limpiar carrito
             </Button>
           </>
         )}
@@ -245,7 +246,7 @@ export default function CartScreen({ match, location, history }) {
               className="mt-4"
               disabled={cartItems.length === 0}
             >
-              Pagar ahora!
+              <i class="fas fa-truck-pickup"></i> Pagar ahora!
             </Button>
           )}
         </Form>

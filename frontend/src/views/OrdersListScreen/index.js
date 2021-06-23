@@ -48,7 +48,7 @@ export default function OrdersListScreen({ history }) {
   };
 
   useEffect(() => {
-    !userInfo.isAdmin && history.push("/");
+    !userInfo?.isAdmin && history.push("/");
     dispatch(
       callApi(
         `/api/orders/getorders/`,

@@ -33,9 +33,14 @@ def getProducts(request):
 def search(request, querie):
     try:
         cursor = connection.cursor()
-        cursor.execute(
-            f"SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria WHERE PRODUCTOS.nombreProducto LIKE '%{querie}%' ORDER BY idProducto DESC"
-        )
+        if querie == "all":
+            cursor.execute(
+                f"SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria ORDER BY idProducto DESC"
+            )
+        else:
+            cursor.execute(
+                f"SELECT PRODUCTOS.idProducto,PRODUCTOS.idCategoria,PRODUCTOS.nombreProducto,PRODUCTOS.descripcionProducto, PRODUCTOS.precioProducto, PRODUCTOS.cantidadStock, PRODUCTOS.imagen,  CATEGORIAS.nombreCategoria FROM PRODUCTOS INNER JOIN CATEGORIAS ON CATEGORIAS.idCategoria = PRODUCTOS.idCategoria WHERE PRODUCTOS.nombreProducto LIKE '%{querie}%' ORDER BY idProducto DESC"
+            )
         r = cursor.fetchall()
         products = productSerializer(r, many=True)
         cursor.close()

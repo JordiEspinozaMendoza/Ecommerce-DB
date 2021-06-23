@@ -12,8 +12,10 @@ export default function ProductPanel({ product, children }) {
       </Col>
       <Col className="p-4" md={9} xs={12}>
         <h4 style={{ color: "#333" }}>{product?.name}</h4>
-        <h5>Categoria {product?.nameCategorie}</h5>
-        <span>$ {product?.price}</span>
+        <h6><b>Categoría</b> {product?.nameCategorie}</h6>
+        <span><b>ID:</b> {product?.id}</span>
+        <span><b>Precio: </b>$ {product?.price}</span>
+        <span><b>Cantidad en stock: </b>{product?.countInStock}</span>
         <span>{product?.description}</span>
         {children}
       </Col>

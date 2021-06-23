@@ -192,7 +192,7 @@ export default function OrderScreen({ history, match }) {
             </Form.Group>
             <Form.Group controlId="statusDeliver">
               <Form.Label>Estatus de pago</Form.Label>
-              {userInfo.isAdmin ? (
+              {userInfo?.isAdmin ? (
                 <Form.Control
                   name="statusPay"
                   as="select"
@@ -223,7 +223,7 @@ export default function OrderScreen({ history, match }) {
               )}
             </Form.Group>
             {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
-            {userInfo.isAdmin ? (
+            {userInfo?.isAdmin ? (
               <Button variant="success" type="submit" className="mt-4">
                 Actualizar
               </Button>
