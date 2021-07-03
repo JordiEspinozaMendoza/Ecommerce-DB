@@ -112,7 +112,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "STORE",
         "USER": "selvin@proyecstore",
-        "PASSWORD": "Joal2316",
+        "PASSWORD": "",
         "HOST": "proyecstore.mysql.database.azure.com",
         "PORT": "3306",
     }
