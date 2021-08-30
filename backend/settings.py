@@ -112,7 +112,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "STORE",
         "USER": "selvin@proyecstore",
-        "PASSWORD": "Joal2316",
+        "PASSWORD": "*******",
         "HOST": "proyecstore.mysql.database.azure.com",
         "PORT": "3306",
     }
@@ -161,6 +161,11 @@ STATIC_URL = "/static/"
 
 CORS_ALLOW_ALL_ORIGINS = True
 if os.getcwd() == "/app":
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
     DEBUG = False
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
